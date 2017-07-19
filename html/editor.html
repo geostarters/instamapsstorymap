@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Story Map</title>
+<meta name="description" content="Telling stories with maps.">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+<!-- === leaflet -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css" />
+
+<link rel="stylesheet" type="text/css" href="../css/editor.css">
+</head>
+<body class="wysihtml5-supported">
+<script id="storymap_slide_template" type="text/template">
+<li class="slide">
+<div class="slide-icon"></div>
+<div class="slide-title"><%= headline || "(untitled)" %></div>
+</li>
+</script>
+
+<div class="menu-bar">
+    <div class="menu-bar-left">
+        <button id="storymap_save" class="btn disabled"><i class="icon-save"></i> Save</button>
+        <button id="storymap_publish" class="btn hide"><i class="icon-repeat"></i> Publish Changes</button>
+    </div>
+    <!-- div class="menu-bar-right">
+        <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">Help <span class="caret"></span></button>
+            <ul class="dropdown-menu pull-right">
+                <li><a href="" target="_blank">Advanced</a></li>
+                <li><a href="https://knightlab.zendesk.com/forums/22615078-StoryMapJS" target="_blank">Support Forum</a></li>
+                <li><a href="https://github.com/NUKnightLab/StoryMapJS" target="_blank">GitHub Repository</a></li>
+            </ul>
+        </div>
+        <button id="storymap_share" class="btn" href="#share_modal" data-toggle="modal"><i class="icon-share"></i> Share</button>
+    </div-->
+</div>
+
+<div class="slides-section">
+    <div class="slide">
+        <div class="slide-icon"></div>
+        <div class="slide-title" id="slide1"></div>
+    </div>
+    <div class="slides-container">
+        <ol id="slides">
+        </ol>
+	    <div class="slides-add" id="storymap_add_slide" >
+			<div class="slide-icon2"></div>
+			<div class="slide-title" id="addSlide">Add Slide</div>
+		</div>
+    </div>
+</div>
+
+<div class="tabs-section">
+     <button id="storymap_load" class="btn disabled"><i class="icon-save"></i> Load URL Instamaps</button>
+     <button id="storymap_unload" class="btn hide"><i class="icon-repeat"></i> Delete URL Instamaps</button>
+    <div class="tab-content">
+        <div class="tab-pane active" id="edit">
+              <div class="icono--div">
+ 
+	            <div class="icono">
+	                <a id="obrir_menu" href="#">
+	                    <span class="span__raya"></span>
+	                    <span class="span__raya"></span>
+	                    <span class="span__raya"></span>
+	                </a>
+	            </div>
+	        </div>
+            <div id="map-div">
+            	<div id="mapaFrame" style="height:100%;width:100%;float:left">
+            	<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.instamaps.cat/geocatweb/visor.html"></iframe>
+               </div>
+                <div class="data-section">
+                    <input id="headline" type="text" placeholder="Títol" class="editor-headline">
+                    <textarea id="text" rows="5"></textarea>
+                </div>
+            </div>
+    		
+
+       
+
+        </div>
+        <div class="tab-pane" id="preview">
+            <div id="preview_embed"></div>
+        </div>
+    </div>
+</div>
+
+<!-- START BOOTSTRAP-WYSIHTML5 BUTTON TEMPLATES -->
+<ul id="wysihtml5_emphasis" style="display: none;">
+    <li>
+    <div class="btn-group">
+    <a class="btn btn-small" data-wysihtml5-command="bold" title="Bold" tabindex="-1" href="javascript:;" unselectable="on"><i class="icon-bold"></i></a>
+    <a class="btn btn-small" data-wysihtml5-command="italic" title="Italic" tabindex="-1" href="javascript:;" unselectable="on"><i class="icon-italic"></i></a>
+    </div>
+    </li>
+</ul>
+<ul id="wysihtml5_link" style="display: none;">
+<li>
+    <div class="bootstrap-wysihtml5-insert-link-modal modal hide fade">
+    <div class="modal-body">
+    <p><input value="http://" class="bootstrap-wysihtml5-insert-link-url input-xlarge"></p>
+    <label class="checkbox"> <input type="checkbox" class="bootstrap-wysihtml5-insert-link-target" checked="">Open link in new window</label>
+    </div>
+    <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert link</a>
+    </div>
+    </div>
+    <a class="btn btn-small" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1" href="javascript:;" unselectable="on"><i class="icon-link"></i></a>
+</li>
+</ul>
+<ul id="wysihtml5_html" style="display: none;">
+<li>
+    <div class="btn-group">
+    <a class="btn btn-small" data-wysihtml5-action="change_view" title="Edit HTML" tabindex="-1" href="javascript:;" unselectable="on">&lt;/&gt;</a>
+    </div>
+</li>
+</ul>
+<!-- END BOOTSTRAP-WYSIHTML5 BUTTON TEMPLATES -->
+<!-- The Modal -->
+<div id="dialog_load_map" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Afegeix la URL del mapa sobre el que vols fer la historia</p>
+	<input type="text" id="urlInstamaps" maxSize=200/>
+ 	<div class="modal-footer">
+				<button lang="ca" type="button" class="btn btn-default"
+					data-dismiss="modal">Carregar</button>
+				<button lang="ca" type="button" class="btn btn-danger"
+					data-dismiss="modal">Cancel·lar</button>
+	</div>
+	  </div>
+</div>
+<div id="confirm_modal" class="modal hide fade" data-backdrop="static">
+    <div class="modal-body">
+        <p class="modal-msg"></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary">Delete</button>
+    </div>
+</div>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../js/ajax_storymap.js"></script>
+<script src="../js/storymap.js"></script>
+
+</body>
+</html>
