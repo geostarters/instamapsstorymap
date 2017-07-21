@@ -11,6 +11,10 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css" />
 
 <link rel="stylesheet" type="text/css" href="../css/editor.css">
+
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<link href="../js/summernote/summernote.css" rel="stylesheet">
+
 </head>
 <body class="wysihtml5-supported">
 <script id="storymap_slide_template" type="text/template">
@@ -19,10 +23,11 @@
 <div class="slide-title"><%= headline || "(untitled)" %></div>
 </li>
 </script>
-
+<input type="hidden" id="idEditor" value="">
+<input type="hidden" id="idStoryMap" value="">
 <div class="menu-bar">
     <div class="menu-bar-left">
-        <button id="storymap_save" class="btn disabled"><i class="icon-save"></i> Save</button>
+        <button id="storymap_save" class="btn disabled"><i class="icon-save"></i> Save StoryMap</button>
         <button id="storymap_publish" class="btn hide"><i class="icon-repeat"></i> Publish Changes</button>
     </div>
     <!-- div class="menu-bar-right">
@@ -38,11 +43,7 @@
     </div-->
 </div>
 
-<div class="slides-section">
-    <div class="slide">
-        <div class="slide-icon"></div>
-        <div class="slide-title" id="slide1"></div>
-    </div>
+<div class="slides-section">    
     <div class="slides-container">
         <ol id="slides">
         </ol>
@@ -54,8 +55,7 @@
 </div>
 
 <div class="tabs-section">
-     <button id="storymap_load" class="btn disabled"><i class="icon-save"></i> Load URL Instamaps</button>
-     <button id="storymap_unload" class="btn hide"><i class="icon-repeat"></i> Delete URL Instamaps</button>
+     
     <div class="tab-content">
         <div class="tab-pane active" id="edit">
               <div class="icono--div">
@@ -69,12 +69,19 @@
 	            </div>
 	        </div>
             <div id="map-div">
+            	<input type="hidden" id="slide_index">
             	<div id="mapaFrame" style="height:100%;width:100%;float:left">
             	<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.instamaps.cat/geocatweb/visor.html"></iframe>
                </div>
-                <div class="data-section">
+                <div class="data-section" style="display:none;">
+               		<input id="urlMap" type="text" placeholder="urlMap" class="editor-headline">
+               		<button id="storymap_load" class="btn"><i class="icon-save"></i> Load URL</button>
+   					<button id="storymap_unload" class="btn"><i class="icon-repeat"></i> Clear URL</button>
+   					<br/><br/>
                     <input id="headline" type="text" placeholder="Títol" class="editor-headline">
-                    <textarea id="text" rows="5"></textarea>
+                    <div id="summernote"></div>              
+                    <br/><br/>
+                    <button id="storymap_save_slide" class="btn btn-primary"><i class="icon-save"></i>Save slide</button>
                 </div>
             </div>
     		
@@ -135,20 +142,40 @@
 	</div>
 	  </div>
 </div>
-<div id="confirm_modal" class="modal hide fade" data-backdrop="static">
-    <div class="modal-body">
+<div id="confirm_modal" class="modal hide fade" >
+    <div class="modal-content">
         <p class="modal-msg"></p>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
         <button class="btn btn-primary">Delete</button>
     </div>
+    
+</div>
+
+<div id="dialog_delete_slide" class="modal delete_slide" >
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div id="msg"></div>
+	<div class="modal-footer">
+				<button lang="ca" type="button" class="btn btn-default"
+					data-dismiss="modal">Aceptar</button>
+				<button lang="ca" type="button" class="btn btn-danger"
+					data-dismiss="modal">Cancel·lar</button>
+	</div>
+	  </div>
 </div>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 <script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../js/url.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+<script src="../js/summernote/summernote.js"></script>
 <script src="../js/ajax_storymap.js"></script>
 <script src="../js/storymap.js"></script>
+
 
 </body>
 </html>

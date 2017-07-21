@@ -23,86 +23,138 @@ var _default_data = {
 var _storymap_data;
 var _current_slide_index = -1;
 var _slides=null;
+var _slidesServidor=null;
 
 var _re_slide_cls = /^slide-icon-\w+$/;
 var storymap_slide_template = _.template($("#storymap_slide_template").html().trim());
 jQuery(document).ready(function() {
-	$('#slide1').html('<span>Slide 1</span>');
 	eventsButtons();
 	// Create StorySlider
 	_slides = $('#slides');
-	//test node service
-	testNode();
+	var id= url('#id') || null;
+	if (id!=null){//Comprovem id mapa editor per carregar slides
+		var jsonSlides = editMapSlides(id);
+		console.debug(jsonSlides);
+	}
+	else _slidesServidor=null;
+	$('#summernote').summernote();
+	$('#storymap_add_slide').click();
 });
 
 
 
 function eventsButtons(){
-	$('#dialog_load_map .btn-default').on('click', function(event){
-		var modal = document.getElementById('dialog_load_map');
-		var loc=document.getElementById('urlInstamaps').value;
-		document.getElementById('instamapsMap').src = loc;
-		modal.style.display = "none";
-	});
 	
-		
-	$('#dialog_load_map .close').on('click', function(event){
-		var modal = document.getElementById('dialog_load_map');
-		modal.style.display = "none";
-	});
-	
-	$('#dialog_load_map .btn-danger').on('click', function(event){
-		var modal = document.getElementById('dialog_load_map');
-		modal.style.display = "none";
-	});
 	$('#storymap_load').on('click', function(event){
-		var modal = document.getElementById('dialog_load_map');
-		modal.style.display = "block";
+		var loc=document.getElementById('urlMap').value;
+		document.getElementById('instamapsMap').src = loc;
 	});
 	$('#storymap_unload').on('click', function(event){
-		var modal = document.getElementById('dialog_load_map');
+		document.getElementById('urlMap').value='';
 		document.getElementById('instamapsMap').src = 'https://www.instamaps.cat/geocatweb/visor.html';
-		modal.style.display = "none";
 	});
 	
 	$('#obrir_menu').on('click', function(event){
 			var style = $('#mapaFrame').attr("style");
-			if (style.indexOf("75%")>-1) $('#mapaFrame').attr('style','height:100%;width:100%;float:left');
-			else $('#mapaFrame').attr('style','height:100%;width:75%;float:left');
+			if (style.indexOf("65%")>-1) {
+				$('#mapaFrame').attr('style','height:100%;width:100%;float:left');
+				$('.data-section').attr('style','display:none;');
+			}
+			else {
+				$('#mapaFrame').attr('style','height:100%;width:65%;float:left');
+				$('.data-section').attr('style','');
+			}
 	});
 	
 	 $('#storymap_add_slide').click(function(event) {
-	         slide_add();
-	         
+	         slide_add();	         
+	         clear_div_map();
+	 });
+	 
+	 $('#storymap_save_slide').click(function(event){
+		 //Salvar tota la info del slide amb el servei de node
+		 if ($('#idEditor').val()!='' & $('#idStoryMap').val()!='' ){ //ja existeix l'storymap creat. Cal recuperar la info i modificar-la 
+			 var idMapaEditing=$('#idEditor').val();
+			 var idMapa=$('#idStoryMap').val();
+			 editMapSlides(idMapaEditing).then(function(results){
+				 var editMapJson =results;
+				 console.debug(editMapJson);
+				 var slide={
+							id:$('#slide_index').val(),
+							url_mapa:$('#urlMap').val(),
+							titol:$('#headline').val(),
+							descripcio:$('#summernote').summernote('code')
+				 };
+				 var slides =$.parseJSON(editMapJson.slides);
+				 slides.forEach( function(valor, indice, array) {
+					 var slide_ = valor;
+					 if (slide_.id == slide.id){
+						 slides[indice]=slide; 
+					 }
+					 else slides[slides.length]=slide;
+				});
+				 updateMapSlides(idMapaEditing, idMapa,JSON.stringify(slides)).then(function(results2){
+					console.debug(results2);
+				 });
+				 _slidesServidor=slides;
+			 });
+		 }
+		 else{ //no existeix l'storymap. Creem un de nou amb la info corresponent
+			 var slide={
+				id:$('#slide_index').val(),
+				url_mapa:$('#urlMap').val(),
+				titol:$('#headline').val(),
+				descripcio:$('#summernote').summernote('code')
+			 };
+			 var slides = "["+JSON.stringify(slide)+"]";
+			 _slidesServidor=slides;
+			 newMapSlides(slides).then(function(results){
+				 $('#idEditor').val(results.id_editor);
+				 $('#idStoryMap').val(results.id);				 
+			 });
+		 }
 	 });
 	
+	 $('#storymap_save').click(function(event){
+		alert("URL editor:"+window.location+"id="+$('#idEditor').val() +"URL mapa:"+window.location.replace("editor","visor")+"id="+$('#idStoryMap').val()); 
+		
+	});
+}
+
+function clear_div_map(){
+	$('#instamapsMap').src="http://www.instamaps.cat/geocatweb/visor.html";
+	$('#urlMap').val('');
+	$('#headline').val('');
+	$('#summernote').summernote('code', '');	
+	$('#slide_index').val($('.slide').length);
 }
 
 function slide_add() {
     var data = $.extend(true, {}, _default_data.storymap.slide);
     var n = _slides.length;
-   
-
-    // Add slide
-    _slides.push(data);
-    storymap_dirty(1);
-
-    // Add slide element if not adding overview slide
-    if(n > 0) {
-        var slide = slide_append_element(data);
-
-        // Adjust slide container height
-        var height = $('#slides').height() + slide.outerHeight(true);
-        $('#slides').css('height', height+"px");
-
-        // Scroll new slide into view
-        $('.slides-container').scrollTop(Math.max(0, height - $('#slides').parent().height()));
-    } else {
-        slide_set_class(0);
+    if (n == 9){
+    	alert("Maxxim número de slides assolit");
     }
-
-    // Select new slide
-    $('.slide:last').click();
+    else{
+    	 // Add slide
+        _slides.push(data);
+        storymap_dirty(1);
+	    // Add slide element if not adding overview slide
+	    if(n > 0) {
+	        var slide = slide_append_element(data);
+	
+	        // Adjust slide container height
+	        var height = $('#slides').height() + slide.outerHeight(true);
+	        $('#slides').css('height', height+"px");
+	
+	        // Scroll new slide into view
+	        $('.slides-container').scrollTop(Math.max(0, height - $('#slides').parent().height()));
+	    } else {
+	        slide_set_class(0);
+	    }
+	    // Select new slide
+	    $('.slide:last').click();
+    }
 }
 
 function slide_append_element(data) {
@@ -129,34 +181,10 @@ function slide_select(event) {
     $(this).addClass('selected');
 
     _current_slide_index = $('.slide').index(this);
-
-   /* if(preview_visible()) {
-        if(_storymap_object) {
-            _storymap_object.goTo(_current_slide_index);
-        }
-    } else {*/
-       
-        //_map.zoomEnable(false);
-       // _map.clearOverlays();
-
-        if(_current_slide_index == 0) {
-            // Show overview view
-           
-
-            for(var i = 1; i < _slides.length; i++) {
-                if(_slides[i].hasOwnProperty('location')) {
-                    var loc_data = _slides[i].location;
-
-                }
-            }
-
-            $('#marker_options').attr('disabled',true);
-
-            
-        } else {
-            // Show slide view
-           
-        }
+    if (_slidesServidor!=null){
+    	var currentSlide = _slidesServidor[_current_slide_index];
+    	console.debug(currentSlide);
+    }
 
      
     //}
@@ -171,36 +199,7 @@ function slide_delete(event) {
     var data = _slides[slide_index];
     var slide_title = ((data.text) ? (data.text.headline || "(untitled)") : "(untitled)");
 
-    show_confirm('Delete "'+slide_title+'" slide?', function() {
-        var height = $('#slides').height() - slide_elem.outerHeight(true);
-
-        // Delete the slide data
-        _slides.splice(slide_index, 1);
-        storymap_dirty(1);
-
-        // Remove DOM element
-        slide_elem.remove();
-
-        // Adjust slide container height
-        $('#slides').css('height', height+"px");
-
-        if(_current_slide_index == 0) {
-            // Update overlay view
-            _map.removeMarker(slide_index - 1);
-        } else {
-            // Reset current slide
-            if(slide_index < _current_slide_index) {
-                _current_slide_index--;
-                //storymap_auto_save();
-            } else if(slide_index == _current_slide_index) {
-                var n = Math.min(_current_slide_index, _slides.length - 1);
-                $('.slide').eq(n).click();
-            }
-        }
-
-        // Refresh preview
-       // preview_refresh();
-    });
+    show_confirm('Delete "'+slide_title+'" slide?',slide_elem, slide_index);
 
     return false;
 }
@@ -242,13 +241,50 @@ function storymap_dirty(is_dirty) {
     }
 }
 
-function show_confirm(msg, callback) {
-    $('#confirm_modal .modal-msg').html(msg);
-    $('#confirm_modal .btn-primary').one('click.confirm', function(event) {
-        $('#confirm_modal').modal('hide');
-        if(callback) {
-            callback();
-        }
-    });
-    $('#confirm_modal').modal('show');
+function show_confirm(msg,slide_elem,slide_index) {
+	var modal = document.getElementById('dialog_delete_slide');
+	$('#msg').html('<span>'+msg+'</span>');
+	modal.style.display = "block";
+	
+	$('#dialog_delete_slide .btn-default').on('click', function(event){
+		var modal = document.getElementById('dialog_delete_slide');
+		modal.style.display = "none";
+	
+		var height = $('#slides').height() - slide_elem.outerHeight(true);
+	
+	    // Delete the slide data
+	    _slides.splice(slide_index, 1);
+	    storymap_dirty(1);
+	
+	    // Remove DOM element
+	    slide_elem.remove();
+	
+	    // Adjust slide container height
+	    $('#slides').css('height', height+"px");
+	
+	    if(_current_slide_index == 0) {
+	        // Update overlay view
+	       // _map.removeMarker(slide_index - 1);
+	    } else {
+	        // Reset current slide
+	        if(slide_index < _current_slide_index) {
+	            _current_slide_index--;
+	            //storymap_auto_save();
+	        } else if(slide_index == _current_slide_index) {
+	            var n = Math.min(_current_slide_index, _slides.length - 1);
+	            $('.slide').eq(n).click();
+	        }
+	    }
+	});
+	
+	$('#dialog_delete_slide .close').on('click', function(event){
+		var modal = document.getElementById('dialog_delete_slide');
+		modal.style.display = "none";
+	});
+	
+	$('#dialog_delete_slide .btn-danger').on('click', function(event){
+		var modal = document.getElementById('dialog_delete_slide');
+		modal.style.display = "none";
+	});
+   
 }
