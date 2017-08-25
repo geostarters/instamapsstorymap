@@ -1,0 +1,30 @@
+{
+	"name": "storymap.js",
+	"version": "0.0.1",
+	"description": "Implementation of a Story Map in Instamaps",
+	"author": "Geostarters <geostarters@gmail.com>",
+	"scripts": {
+		"build": "gulp build"
+	},
+	"main": "storymap.min.js",
+	"dependencies": {
+	},
+	"devDependencies": {
+		"gulp": "3.9.1",
+		"gulp-cli": "1.3.0",
+		"gulp-concat": "2.6.1",
+		"gulp-uglify": "3.0.0",
+		"gulp-sourcemaps": "2.6.0",
+		"gulp-util": "3.0.8",
+		"gulp-eslint": "4.0.0",
+		"uglify-es": "3.0.25",
+		"eslint": "3.19.0",
+		"eslint-plugin-import": "2.2.0",
+		"eslint-config-airbnb-base": "11.2.0",
+		"del": "3.0.0",
+		"jsdoc": "3.5.3",
+		"gulp-jsdoc3": "1.0.1",
+		"docdash":"0.4.0"
+	}, 
+	"license": "BEERWARE"
+}

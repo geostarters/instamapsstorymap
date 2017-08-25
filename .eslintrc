@@ -1,0 +1,14 @@
+{
+	extends: "airbnb-base",
+	rules: {
+		func-names: ["error", "never"],		//disallows named function expressions
+		wrap-iife: ["error", "inside"],		//enforces always wrapping the function expression
+		padded-blocks: ["error", "always"],	//requires empty lines at the beginning and ending of block statements and classes
+		quotes: ["error", "double"],			//requires the use of double quotes wherever possible
+		indent: ["error", "tab"],				//enforces tab indentation
+		no-tabs: 0,							//disables the no-tabs rule 'cause it conflicts with the quotes rule
+		no-underscore-dangle: 0,				//disables the no-underscore-dangle rule. Underscores are used in private members
+		no-restricted-syntax: 0,				//disables the no-restricted-syntax so we can use for ... of ...
+		no-plusplus: 0,						//disables the no-plusplus rule so we can use ++ and --
+	}
+}

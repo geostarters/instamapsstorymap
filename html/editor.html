@@ -18,13 +18,11 @@
 </head>
 <body class="wysihtml5-supported">
 <script id="storymap_slide_template" type="text/template">
-<li class="slide">
-<div class="slide-icon"></div>
-<div class="slide-title"><%= headline || "(untitled)" %></div>
-</li>
+    <li class="slide">
+        <div class="slide-icon"></div>
+        <div class="slide-title"><%= text || "(untitled)" %></div>
+    </li>
 </script>
-<input type="hidden" id="idEditor" value="">
-<input type="hidden" id="idStoryMap" value="">
 <div class="menu-bar">
     <div class="menu-bar-left">
         <button id="storymap_save" class="btn disabled"><i class="icon-save"></i> Save StoryMap</button>
@@ -44,8 +42,8 @@
 </div>
 
 <div class="slides-section">    
-    <div class="slides-container">
-        <ol id="slides">
+    <div id="slidesContainer">
+        <ol id="slideList">
         </ol>
 	    <div class="slides-add" id="storymap_add_slide" >
 			<div class="slide-icon2"></div>
@@ -173,8 +171,8 @@
 <script src="../js/url.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 <script src="../js/summernote/summernote.js"></script>
-<script src="../js/ajax_storymap.js"></script>
-<script src="../js/storymap.js"></script>
+<script src="../build/js/storymap.min.js"></script>
+<script src="../js/editor.js"></script>
 
 
 </body>
