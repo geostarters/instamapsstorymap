@@ -5,6 +5,8 @@ const uglifyes = require("uglify-es");
 const composer = require("gulp-uglify/composer");
 const sourcemaps = require("gulp-sourcemaps");
 const gutil = require("gulp-util");
+const watch = require("gulp-watch");
+const batch = require("gulp-batch");
 const del = require("del");
 const minify = composer(uglifyes, console);
 const jsdoc = require("gulp-jsdoc3");
@@ -27,12 +29,20 @@ gulp.task("build", ["clean", "lint"], () => gulp.src(paths.scripts)
 		})
 		.pipe(concat("storymap.min.js"))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest("build/js")));
+		.pipe(gulp.dest("build/js"))
+);
+
+gulp.task('watch', function () {
+    watch(paths.scripts, batch(function (events, done) {
+        gulp.start('build', done);
+    }));
+});
 
 gulp.task("lint", [], () => gulp.src(paths.scripts)
 		.pipe(eslint())
 		.pipe(eslint.format())
-		.pipe(eslint.failAfterError()));
+		.pipe(eslint.failAfterError())
+);
 
 gulp.task("doc", [], (cb) => {
 

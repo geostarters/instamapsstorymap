@@ -29,6 +29,7 @@ SlideIcon.prototype.addEvents = function () {
 		self.clicked();
 
 	});
+
 	self.deleteDOMElem.click(() => {
 
 		self.deleteButtonPressed();
