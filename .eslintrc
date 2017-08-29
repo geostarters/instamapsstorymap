@@ -10,5 +10,6 @@
 		no-underscore-dangle: 0,				//disables the no-underscore-dangle rule. Underscores are used in private members
 		no-restricted-syntax: 0,				//disables the no-restricted-syntax so we can use for ... of ...
 		no-plusplus: 0,						//disables the no-plusplus rule so we can use ++ and --
+		no-unused-vars: ["error", {"varsIgnorePattern":"Utils"}]
 	}
 }

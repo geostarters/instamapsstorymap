@@ -59,7 +59,7 @@ SlideIcon.prototype.deleteButtonPressed = function () {
 	const self = this;
 
 	const currentSlideIndex = $(self.options.slideClass).index(self.slideDOMElem);
-	$(self).trigger("Slide:deleted", [currentSlideIndex]);
+	$(self).trigger("Slide:deletePressed", [currentSlideIndex]);
 
 };
 
