@@ -1,0 +1,56 @@
+.carousel {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.carousel-inner {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.carousel-inner > .active,.carousel-inner > .next, .carousel-inner > .prev {
+	position: absolute;
+    height: 100%;
+    width: 100%;
+}
+	
+.descitem{
+	position:absolute;
+	top:0;
+	bottom:0;
+	width:35%;
+	opacity:.8;
+	right:0;
+	left:auto;
+	background-color:white;
+	padding:20px;
+}
+
+
+.carousel-fade .carousel-inner .item {
+  opacity: 0;
+  transition-property: opacity;
+}
+
+.carousel-fade .carousel-inner .active {
+  opacity: 1;
+}
+
+.carousel-fade .carousel-inner .active.left,
+.carousel-fade .carousel-inner .active.right {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}
+
+.carousel-fade .carousel-inner .next.left,
+.carousel-fade .carousel-inner .prev.right {
+  opacity: 1;
+}
+
+.carousel-fade .carousel-control {
+  z-index: 2;
+}
+

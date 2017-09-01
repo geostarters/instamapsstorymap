@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>StoryMap Visor</title>
+<meta name="description" content="Telling stories with maps.">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../css/visor.css">
+</head>
+<body>
+
+
+ <div id="myCarousel" class="carousel slide carousel-fade" >
+    <!-- Indicators -->
+   
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+	    <script id="storymap_slide_template" type="text/template">
+    		<div class="item">
+				<iframe src="<%=url || "http://www.instamaps.cat"%>" width="100%" height="100%"/>
+				<div class="descitem">
+   		 			<h2><%= text || "(untitled)" %></h2>
+					<%= descripcio || "(no desc)"%>
+				</div>
+    		</div>
+		</script>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+      <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+<script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../js/url.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+<script src="../js/summernote/summernote.js"></script>
+<script src="../build/js/storymap.min.js"></script>
+<script src="../js/visor.js"></script>
+
+</body>
+</html>
