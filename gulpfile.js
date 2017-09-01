@@ -19,7 +19,7 @@ const paths = {
 
 gulp.task("clean", () => del(["build"]));
 
-gulp.task("build", ["clean", "lint"], () => gulp.src(paths.scripts)
+gulp.task("build", ["clean"], () => gulp.src(paths.scripts)
 		.pipe(sourcemaps.init())
 		.pipe(minify())
 		.on("error", (err) => {
