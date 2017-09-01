@@ -1,12 +1,10 @@
-/* global $, alert, SlideBar, SlideInfo, StoryMapServer*/
+/* global $, alert, SlideBar, SlideInfo, StoryMapServer, Dialog*/
 
 function StoryMap(options) {
 
 	const _defaultOptions = {
 
 		language: "en",
-		slideIconRegex: /^slide-icon-\w+$/,
-		slideTemplate: "#storymap_slide_template",
 		maxSlides: 10,
 		strings: {
 			en: {
@@ -24,16 +22,18 @@ function StoryMap(options) {
 
 	this.options = $.extend(true, {}, _defaultOptions, options);
 
-	this._currentSlideIndex = -1;
-	this._storyMapData = null;
-	this.slides = null;
+	this.currentDeletionIndex = -1;
+	this.currentSelectedIndex = -1;
+	this.slides = [];
 	this.idEditor = "";
 	this.idStoryMap = "";
 	this.slideBar = new SlideBar();
 	this.slideInfoPanel = new SlideInfo();
+	this.deleteDialog = new Dialog();
 	this.server = new StoryMapServer();
 
 	this.addEvents();
+	this._addSlide();
 
 }
 
@@ -47,6 +47,46 @@ StoryMap.prototype.addEvents = function () {
 
 	});
 
+	$(self.slideBar).on("SlideBar:slideSelected", (event, id) => {
+
+		this.currentSelectedIndex = id;
+		self._slideSelected(id);
+
+	});
+
+	$(self.slideBar).on("SlideBar:addSlidePressed", () => {
+
+		self._addSlide();
+
+	});
+
+	$(self.slideBar).on("SlideBar:deleteSlidePressed", (event, id) => {
+
+		self.currentDeletionIndex = id;
+		self._slideDeletePressed(id);
+
+	});
+
+	$(self.deleteDialog).on("Dialog:accept", () => {
+
+		self._slideDeleteConfirmed();
+
+		if (this.currentSelectedIndex === this.currentDeletionIndex) {
+
+			this.slideInfoPanel.clear();
+
+		}
+
+		self.currentDeletionIndex = -1;
+
+	});
+
+	$(self.deleteDialog).on("Dialog:cancel", () => {
+
+		self.currentDeletionIndex = -1;
+
+	});
+
 };
 
 StoryMap.prototype.saveSlide = function () {
@@ -56,7 +96,7 @@ StoryMap.prototype.saveSlide = function () {
 		id: this.slides.length,
 		url_mapa: this.slideInfoPanel.getURL(),
 		titol: this.slideInfoPanel.getTitol(),
-		descripcio: this.slideInfoPanel.getDescricio(),
+		descripcio: this.slideInfoPanel.getDescripcio(),
 	};
 
 	this.slides.push(slide);
@@ -70,45 +110,45 @@ StoryMap.prototype.saveSlide = function () {
 
 };
 
-StoryMap.prototype.addSlide = function () {
+StoryMap.prototype._addSlide = function () {
 
-	const defaultData = $.extend(true, {}, this.options.slideData);
-	const n = this._slides.length;
-	if (n === this.options.maxSlides) {
+	const self = this;
 
-		//alert(this.options.strings[this.options.language].maxSlides);
+	const defaultData = $.extend(true, {}, self.options.slideData);
+	const n = self.slides.length;
+	if (n === self.options.maxSlides) {
+
+		alert(self.options.strings[self.options.language].maxSlides);
 
 	}	else {
 
-		this._slides.push(defaultData);
-		$(this).trigger("StoryMap:changed");
-		const slide = this.slideBar.addSlide(defaultData);
-		slide.on("SlideBar:slideSelected", this._slideSelected);
-		slide.on("SlideBar:deleteSlidePressed", this._slideDeletePressed);
+		self.slides.push(defaultData);
+		this.slideBar.addSlide();
+		$(self).trigger("StoryMap:changed");
 
 	}
 
 };
 
-StoryMap.prototype._slideSelected = function (event, index) {
+StoryMap.prototype._slideSelected = function (index) {
 
 	if (this.slides != null) {
 
 		const currentSlide = this.slides[index];
-
-		// TODO: Passar a l'SlideInfo
-		alert(currentSlide);
+		this.slideInfoPanel.setData(currentSlide.url_mapa, currentSlide.titol, currentSlide.descripcio);
+		this.slideInfoPanel.open();
 
 	}
 
 };
 
-StoryMap.prototype._slideDeletePressed = function (event, index) {
+StoryMap.prototype._slideDeletePressed = function (index) {
 
-	const data = this._slides[index];
-	const slideTitle = ((data.text) ? (data.text.headline || "(untitled)") : "(untitled)");
+	const data = this.slides[index];
+	const slideTitle = (data.titol || "(untitled)");
 
-	this.showConfirm(`Delete "${slideTitle}" slide?`, this.options.slideElem, index);
+	this.deleteDialog.setMessage(`Delete "${slideTitle}" slide?`);
+	this.deleteDialog.show();
 
 };
 
@@ -201,66 +241,11 @@ StoryMap.prototype.load = function (id) {
 
 };
 
-/*
-StoryMap.prototype.show_confirm = function () {  (msg, slideElem, slideIndex) {
+StoryMap.prototype._slideDeleteConfirmed = function () {
 
-	const modal = document.getElementById("dialog_delete_slide");
-	$("#msg").html(`<span>${msg}</span>`);
-	modal.style.display = "block";
+	const self = this;
 
-	$("#dialog_delete_slide .btn-default").on("click", () => {
+	self.slides.splice(this.currentDeletionIndex, 1);
+	self.slideBar.removeSlide(this.currentDeletionIndex);
 
-		modal = document.getElementById("dialog_delete_slide");
-		modal.style.display = "none";
-
-		const height = $("#slides").height() - slideElem.outerHeight(true);
-
-		// Delete the slide data
-		_slides.splice(slideIndex, 1);
-		storymap_dirty(1);
-
-		// Remove DOM element
-		slideElem.remove();
-
-		// Adjust slide container height
-		$("#slides").css("height", `${height}px`);
-
-		if(_current_slide_index == 0) {
-
-			// Update overlay view
-		   // _map.removeMarker(slideIndex - 1);
-
-		} else {
-
-			// Reset current slide
-			if(slideIndex < _current_slide_index) {
-
-				_current_slide_index--;
-				//storymap_auto_save();
-
-			} else if(slideIndex == _current_slide_index) {
-
-				const n = Math.min(_current_slide_index, _slides.length - 1);
-				$(".slide").eq(n).click();
-
-			}
-
-		}
-
-	});
-	
-	$("#dialog_delete_slide .close").on("click", () => {
-
-		modal = document.getElementById("dialog_delete_slide");
-		modal.style.display = "none";
-
-	});
-	
-	$("#dialog_delete_slide .btn-danger").on("click", () => {
-
-		modal = document.getElementById("dialog_delete_slide");
-		modal.style.display = "none";
-
-	});
-
-};*/
+};

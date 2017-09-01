@@ -24,24 +24,12 @@
     </li>
 </script>
 <div class="menu-bar">
-    <div class="menu-bar-left">
-        <button id="storymap_save" class="btn disabled"><i class="icon-save"></i> Save StoryMap</button>
-        <button id="storymap_publish" class="btn hide"><i class="icon-repeat"></i> Publish Changes</button>
+    <div class="menu-bar-right">
+        <!-- <button id="storymap_save" class="btn disabled"><i class="icon-save"></i> Save StoryMap</button>
+        <button id="storymap_publish" class="btn hide"><i class="icon-repeat"></i> Publish Changes</button> -->
     </div>
-    <!-- div class="menu-bar-right">
-        <div class="btn-group">
-            <button class="btn dropdown-toggle" data-toggle="dropdown">Help <span class="caret"></span></button>
-            <ul class="dropdown-menu pull-right">
-                <li><a href="" target="_blank">Advanced</a></li>
-                <li><a href="https://knightlab.zendesk.com/forums/22615078-StoryMapJS" target="_blank">Support Forum</a></li>
-                <li><a href="https://github.com/NUKnightLab/StoryMapJS" target="_blank">GitHub Repository</a></li>
-            </ul>
-        </div>
-        <button id="storymap_share" class="btn" href="#share_modal" data-toggle="modal"><i class="icon-share"></i> Share</button>
-    </div-->
 </div>
-
-<div class="slides-section">    
+<div class="slides-section">
     <div id="slidesContainer">
         <ol id="slideList">
         </ol>
@@ -51,46 +39,38 @@
 		</div>
     </div>
 </div>
-
+<div id="rightBar">
+	<div class="icono--div">
+		<div class="icono">
+			<a id="obrir_menu" href="#">
+				<span class="span__raya"></span>
+				<span class="span__raya"></span>
+				<span class="span__raya"></span>
+			</a>
+		</div>
+	</div>
+</div>
 <div class="tabs-section">
-     
-    <div class="tab-content">
-        <div class="tab-pane active" id="edit">
-              <div class="icono--div">
- 
-	            <div class="icono">
-	                <a id="obrir_menu" href="#">
-	                    <span class="span__raya"></span>
-	                    <span class="span__raya"></span>
-	                    <span class="span__raya"></span>
-	                </a>
-	            </div>
-	        </div>
-            <div id="map-div">
-            	<input type="hidden" id="slide_index">
-            	<div id="mapaFrame" style="height:100%;width:100%;float:left">
-            	<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.instamaps.cat/geocatweb/visor.html"></iframe>
-               </div>
-                <div class="data-section" style="display:none;">
-               		<input id="urlMap" type="text" placeholder="urlMap" class="editor-headline">
-               		<button id="storymap_load" class="btn"><i class="icon-save"></i> Load URL</button>
-   					<button id="storymap_unload" class="btn"><i class="icon-repeat"></i> Clear URL</button>
-   					<br/><br/>
-                    <input id="headline" type="text" placeholder="Títol" class="editor-headline">
-                    <div id="summernote"></div>              
-                    <br/><br/>
-                    <button id="storymap_save_slide" class="btn btn-primary"><i class="icon-save"></i>Save slide</button>
-                </div>
-            </div>
-    		
-
-       
-
-        </div>
-        <div class="tab-pane" id="preview">
-            <div id="preview_embed"></div>
-        </div>
-    </div>
+	<div id="map-div">
+		<div id="mapaFrame" class="collapsed">
+			<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+			<div id="noURLLoaded">
+				<div id="noURLMessage">No URL loaded</div>
+			</div>
+		</div>
+		<div id="dataSection">
+			<div id="inputs">
+				<input id="urlMap" type="text" placeholder="URL" class="editor-headline">
+				<button id="storymap_load" class="btn"><i class="icon-save"></i> Load URL</button>
+				<button id="storymap_unload" class="btn"><i class="icon-repeat"></i> Clear URL</button>
+				<br/><br/>
+				<input id="headline" type="text" placeholder="Títol" class="editor-headline">
+			</div>
+			<div id="summernote"></div>
+			<button id="storymap_reset_slide" class="btn btn-danger" disabled><i class="icon-reset"></i>Reset slide</button>
+			<button id="storymap_save_slide" class="btn btn-primary" disabled><i class="icon-save"></i>Save slide</button>
+		</div>
+	</div>
 </div>
 
 <!-- START BOOTSTRAP-WYSIHTML5 BUTTON TEMPLATES -->
@@ -140,30 +120,20 @@
 	</div>
 	  </div>
 </div>
-<div id="confirm_modal" class="modal hide fade" >
-    <div class="modal-content">
-        <p class="modal-msg"></p>
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-        <button class="btn btn-primary">Delete</button>
-    </div>
-    
-</div>
 
 <div id="dialog_delete_slide" class="modal delete_slide" >
 
-  <!-- Modal content -->
-  <div class="modal-content">
+    <!-- Modal content -->
+    <div class="modal-content">
     <span class="close">&times;</span>
-    <div id="msg"></div>
-	<div class="modal-footer">
-				<button lang="ca" type="button" class="btn btn-default"
-					data-dismiss="modal">Aceptar</button>
-				<button lang="ca" type="button" class="btn btn-danger"
-					data-dismiss="modal">Cancel·lar</button>
-	</div>
-	  </div>
+		<div id="msg"></div>
+		<div class="modal-footer">
+			<button lang="ca" type="button" class="btn btn-default"
+				data-dismiss="modal">Aceptar</button>
+			<button lang="ca" type="button" class="btn btn-danger"
+				data-dismiss="modal">Cancel·lar</button>
+		</div>
+    </div>
 </div>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>

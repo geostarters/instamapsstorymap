@@ -17,6 +17,8 @@
 		"gulp-sourcemaps": "2.6.0",
 		"gulp-util": "3.0.8",
 		"gulp-eslint": "4.0.0",
+		"gulp-watch":"*",
+		"gulp-batch":"*",
 		"uglify-es": "3.0.25",
 		"eslint": "3.19.0",
 		"eslint-plugin-import": "2.2.0",

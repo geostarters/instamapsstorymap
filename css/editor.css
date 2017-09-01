@@ -430,7 +430,12 @@ a.list-item-options:hover {
 
 /*	MENU BAR
 ----------------------------------------------------- */
-.menu-bar {width: 100%;padding: 8px;z-index: 99;}
+.menu-bar {
+	height: 55px;
+	width: 100%;
+	padding: 8px;
+	z-index: 99;
+}
 .menu-bar-left {float: left;}
 .menu-bar-left * {margin-right: 2px;}
 .menu-bar-right {float: right;}
@@ -492,7 +497,7 @@ a.list-item-options:hover {
 ----------------------------------------------------- */
 .slides-section {
 	position: absolute;
-	top: 72px;
+	top: 55px;
 	left: 0;
 	bottom: 0;
 	right: 100px;
@@ -530,8 +535,7 @@ a.list-item-options:hover {
 	position: relative;
 	width: 100%;
 	margin:0;
-
-	margin-top:15px;
+	margin-bottom:15px;
 	padding:0;
 	text-align: center;
 	cursor: pointer;
@@ -552,12 +556,7 @@ a.list-item-options:hover {
 	color:#666;
 }
 
-.slide:first-child {
-	margin-top: 15px;
-
-}
 .slides-container .slide:first-child {
-	margin-top: 15px;
 	margin-left:0;
 }
 .slide-title {
@@ -730,10 +729,10 @@ a.list-item-options:hover {
 }
 .tabs-section {
 	position: absolute;
-	top: 48px;
+	top:55px;
 	left: 130px;
 	bottom: 0;
-	right: 0;
+	right: 50px;
 
 }
 .tabs-section .nav {
@@ -750,7 +749,7 @@ a.list-item-options:hover {
 .tabs-section .tab-content {
 	position: absolute;
 	left: 0;
-	top: 40px;
+	top: 0px;
 	bottom: 0;
 	right: 0;
 	border-left: 1px solid #CCC;
@@ -763,7 +762,7 @@ a.list-item-options:hover {
 
 /* map
 */
-#map-div {position: absolute;top: 0;left: 0;bottom: 0px;right: 0;border-bottom: 1px solid #CCC;}
+#map-div {position: absolute;top: 0;left: 0;bottom: 0px;right: 0;}
 #map {width: 100%;height: 100%;}
 #map img{max-width:none}
 
@@ -1076,9 +1075,8 @@ animation: none;
 	cursor: pointer;
 } 
 .icono--div {
-  z-index: 600;
-  padding: 35px;
-/*  position: fixed;*/
+	z-index: 600;
+	position: fixed;
    float:right;
 }
 .icono {
@@ -1088,9 +1086,9 @@ animation: none;
 }
 .icono a {
   padding: 10px 15px;
-  background-color: white;
+  background-color: #eee;
   display: inline-block;
-  color: white;
+  color: #eee;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;
@@ -1115,10 +1113,78 @@ animation: none;
   margin: 3px 0px;
 }
 
-.expanded {
+#mapaFrame {
 
-	height:100%;
-	width:65%;
-	float:left
+	height:99%;
 
+}
+
+#dataSection {
+
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 34%;
+	height: 100%;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-top: 10px;
+	background-color: rgba(238, 238, 238, 0.7);
+
+}
+
+#dataSection input {
+	width: 100%;
+}
+
+#rightBar {
+
+    width: 50px;
+    position: absolute;
+    bottom: 0;
+    top: 55px;
+    right: 0px;
+    background-color: #eee;
+
+}
+
+#summernote {
+
+	height: calc(100% - 200px);
+
+}
+
+.note-editor {
+	height: calc(100% - 200px);
+}
+
+.note-editing-area {
+	height: calc(100% - 130px);
+}
+
+.note-editable {
+	height: 100%;
+}
+
+.note-statusbar {
+	display: none;
+}
+
+#storymap_save_slide {
+	float: right;
+}
+
+#noURLLoaded {
+	width: 100%;
+	height: 100%;
+}
+
+#noURLMessage {
+	color: #eee;
+	width: 100%;
+    height: 100%;
+    text-align: center;
+    padding-top: 35%;
+    font-size: 30px;
+    text-shadow: -1px 0 #aaa, 0 1px #aaa, 1px 0 #aaa, 0 -1px #aaa;
 }

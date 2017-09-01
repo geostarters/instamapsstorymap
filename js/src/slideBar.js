@@ -14,7 +14,6 @@ function SlideBar(options) {
 	this.options = $.extend(true, {}, _defaultOptions, options);
 
 	this.addEvents();
-	this.addSlide();
 
 }
 
@@ -24,7 +23,7 @@ SlideBar.prototype.addEvents = function () {
 
 	$(self.options.addSlideButton).click(() => {
 
-		self.addSlide();
+		$(self).trigger("SlideBar:addSlidePressed");
 
 	});
 
@@ -36,11 +35,20 @@ SlideBar.prototype.addSlide = function () {
 
 	const slide = new SlideIcon();
 	slide.appendTo(this.options.slideListId);
-	$(slide).on("Slide:deleted", (event, id) => {
 
-		self.removeSlide(id);
+	$(slide).on("Slide:deletePressed", (event, id) => {
+
+		$(self).trigger("SlideBar:deleteSlidePressed", [id]);
 
 	});
+
+	$(slide).on("Slide:selected", (event, id) => {
+
+		$(self).trigger("SlideBar:slideSelected", [id]);
+
+	});
+
+
 	$(this.options.slidesContainerId).scrollTop(Math.max(0, $(this.options.slideListId).height() -
 		$(this.options.slideListId).parent().height()));
 	slide.clicked();
