@@ -272,6 +272,7 @@ StoryMap.prototype.load = function (id) {
 	self.server.editMapSlides(id).then((results) => {
 
 		self.isDirty = false;
+		self.idStoryMap = results.id;
 		self.slides = JSON.parse(results.slides);
 		self.slideBar.clear();
 		self.slideBar.addSlides(self.slides);

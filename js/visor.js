@@ -5,7 +5,7 @@ jQuery(document).ready(function() {
 	         speed: 500,
 	         cssEase: 'linear'
 	    });*/
-	var id = url('#id') || null;
+	var id = url('?id') || null;
 	if (id != null) {//Comprovem id mapa visor per carregar slides
 		
 		loadVisor(id);
