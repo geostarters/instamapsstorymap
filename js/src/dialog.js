@@ -1,37 +1,58 @@
-/* global $*/
+/* global $, _, Utils*/
 
 function Dialog(options) {
 
 	const _defaultOptions = {
-		slideDeletePopupTemplateId: "#dialog_delete_slide",
-		slideDeleteMessageTextId: "#msg",
+		templateId: "#dialog_template",
+		messageTextId: "#msg",
+		showCancelButton: true,
+		cancelButtonClass: ".btn-ko",
+		confirmButtonClass: ".btn-ok",
+		closeButtonClass: ".close",
 	};
 
 	this.options = $.extend(true, {}, _defaultOptions, options);
 
+	this.setupDialog();
 	this.addEvents();
 
 }
+
+Dialog.prototype.setupDialog = function () {
+
+	const id = Utils.getRandomId();
+	this.id = `#${id}`;
+
+	this.template = _.template($(this.options.templateId).html().trim());
+	$("body").append(this.template({ id }));
+
+	if (!this.options.showCancelButton) {
+
+		$(`${this.id} ${this.cancelButtonClass}`).hide();
+
+	}
+
+};
 
 Dialog.prototype.addEvents = function () {
 
 	const self = this;
 
-	$(`${self.options.slideDeletePopupTemplateId} .btn-default`).on("click", () => {
+	$(`${self.id} ${self.options.confirmButtonClass}`).on("click", () => {
 
 		self.hide();
 		$(self).trigger("Dialog:accept");
 
 	});
 
-	$(`${self.options.slideDeletePopupTemplateId} .close`).on("click", () => {
+	$(`${self.id} ${self.options.closeButtonClass}`).on("click", () => {
 
 		self.hide();
 		$(self).trigger("Dialog:cancel");
 
 	});
 
-	$(`${self.options.slideDeletePopupTemplateId} .btn-danger`).on("click", () => {
+	$(`${self.id} ${self.options.cancelButtonClass}`).on("click", () => {
 
 		self.hide();
 		$(self).trigger("Dialog:cancel");
@@ -42,18 +63,18 @@ Dialog.prototype.addEvents = function () {
 
 Dialog.prototype.setMessage = function (msg) {
 
-	$(this.options.slideDeleteMessageTextId).html(`<span>${msg}</span>`);
+	$(`${this.id} ${this.options.messageTextId}`).html(`<span>${msg}</span>`);
 
 };
 
 Dialog.prototype.show = function () {
 
-	$(this.options.slideDeletePopupTemplateId).show();
+	$(this.id).show();
 
 };
 
 Dialog.prototype.hide = function () {
 
-	$(this.options.slideDeletePopupTemplateId).hide();
+	$(this.id).hide();
 
 };

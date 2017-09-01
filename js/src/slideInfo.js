@@ -4,18 +4,23 @@ function SlideInfo(index, options) {
 
 	const _defaultOptions = {
 
+		urlInputId: "#urlMap",
 		urlLoadButtonId: "#storymap_load",
 		urlClearButtonId: "#storymap_unload",
+		urlFormGroup: "#urlFormGroup",
+		urlFeedback: "#urlMapFeedback",
+		titleInputId: "#title",
+		titleFormGroup: "#titleFormGroup",
+		titleFeedback: "#titleFeedback",
 		infoButtonId: "#obrir_menu",
 		saveSlideButtonId: "#storymap_save_slide",
 		resetSlideButtonId: "#storymap_reset_slide",
-		urlInputId: "#urlMap",
-		titolInputId: "#headline",
 		textInputId: "#summernote",
 		iFrameId: "#instamapsMap",
 		noURLId: "#noURLLoaded",
 		iFrameContainerId: "#mapaFrame",
 		dataContainerId: "#dataSection",
+		spinnerId: "#saveSlideSpinner",
 		defaultUrl: "https://www.instamaps.cat/geocatweb/visor.html?embed=1",
 
 	};
@@ -24,8 +29,8 @@ function SlideInfo(index, options) {
 	this.isDirty = false;
 
 	this.addEvents();
+	this.setupSummernote();
 
-	$(this.options.textInputId).summernote();
 	this.reset();
 
 }
@@ -45,6 +50,8 @@ SlideInfo.prototype.addEvents = function () {
 		$(self.options.urlInputId).val("");
 		$(self.options.iFrameId).hide();
 		$(self.options.noURLId).show();
+		self.disableURLButtons(false);
+		self.disableSlideInputs(false);
 
 	});
 
@@ -65,13 +72,16 @@ SlideInfo.prototype.addEvents = function () {
 	$(self.options.saveSlideButtonId).on("click", () => {
 
 		self.enableSaving(false);
+		$(self.options.spinnerId).show();
+		self.disableSlideInputs();
 		$(self).trigger("SlideInfo:saveSlidePressed");
 
 	});
 
 	$(self.options.resetSlideButtonId).on("click", () => {
 
-		self.reset();
+		self.reset(false);
+		self.setDirty(true);
 
 	});
 
@@ -81,7 +91,7 @@ SlideInfo.prototype.addEvents = function () {
 
 	});
 
-	$(self.options.titolInputId).on("input", () => {
+	$(self.options.titleInputId).on("input", () => {
 
 		self.checkTitol();
 
@@ -95,21 +105,101 @@ SlideInfo.prototype.addEvents = function () {
 
 };
 
+SlideInfo.prototype.setupSummernote = function () {
+
+	$(this.options.textInputId).summernote({ disableDragAndDrop: true,
+		toolbar: [
+			["style", ["color"]],
+			["style", ["style"]],
+			["style", ["bold", "underline", "clear"]],
+			["style", ["fontname"]],
+			["para", ["ul", "ol", "paragraph"]],
+			["insert", ["table"]],
+			["insert", ["link", "picture", "video"]],
+			["misc", ["fullscreen", "codeview", "help"]],
+		],
+	});
+
+	// Hide the "Upload picture" form 
+	$(".note-group-select-from-files").hide();
+
+};
+
 SlideInfo.prototype.checkURL = function () {
 
 	const url = $(this.options.urlInputId).val();
 
 	if (Utils.isValidURL(url)) {
 
+		this.enableURLButtons();
 		this.setDirty(true);
+
+	} else {
+
+		this.disableURLButtons();
+		this.disableSlideInputs(false);
 
 	}
 
 };
 
+SlideInfo.prototype.enableURLButtons = function () {
+
+	$(this.options.urlFormGroup).removeClass("has-error");
+	$(this.options.urlFeedback).hide();
+	$(this.options.urlLoadButtonId).prop("disabled", false);
+	$(this.options.urlClearButtonId).prop("disabled", false);
+
+};
+
+SlideInfo.prototype.enableSlideInputs = function () {
+
+	$(this.options.titleFormGroup).removeClass("has-error");
+	$(this.options.titleFeedback).hide();
+	$(this.options.textInputId).summernote("enable");
+	$(this.options.titleInputId).prop("disabled", false);
+	$(this.options.resetSlideButtonId).prop("disabled", false);
+	$(this.options.saveSlideButtonId).prop("disabled", false);
+
+};
+
+SlideInfo.prototype.disableURLButtons = function (showFeedback) {
+
+	const shouldShowFeedback = showFeedback || (showFeedback === undefined);
+
+	if (shouldShowFeedback) {
+
+		$(this.options.urlFormGroup).addClass("has-error");
+		$(this.options.urlFeedback).show();
+
+	}
+
+	$(this.options.urlLoadButtonId).prop("disabled", true);
+	$(this.options.urlClearButtonId).prop("disabled", true);
+
+};
+
+SlideInfo.prototype.disableSlideInputs = function (showFeedback) {
+
+	const shouldShowFeedback = showFeedback || (showFeedback === undefined);
+
+	if (shouldShowFeedback) {
+
+		$(this.options.titleFormGroup).addClass("has-error");
+		$(this.options.titleFeedback).show();
+
+	}
+
+	$(this.options.textInputId).summernote("disable");
+	$(this.options.resetSlideButtonId).prop("disabled", true);
+	$(this.options.saveSlideButtonId).prop("disabled", true);
+	$(this.options.titleInputId).prop("disabled", true);
+
+};
+
 SlideInfo.prototype.checkTitol = function () {
 
-	const text = $(this.options.titolInputId).val();
+	const text = $(this.options.titleInputId).val();
 
 	if (Utils.isNotEmpty(text)) {
 
@@ -143,17 +233,10 @@ SlideInfo.prototype.setURL = function () {
 	const self = this;
 
 	const url = $(self.options.urlInputId).val();
-	if (Utils.isValidURL(url)) {
-
-		$(self.options.iFrameId).attr("src", url);
-		$(this.options.noURLId).hide();
-		$(this.options.iFrameId).show();
-
-	} else {
-
-		$(self).trigger("SlideInfo:invalidURL");
-
-	}
+	$(self.options.iFrameId).attr("src", url);
+	$(this.options.noURLId).hide();
+	$(this.options.iFrameId).show();
+	self.enableSlideInputs();
 
 };
 
@@ -165,7 +248,7 @@ SlideInfo.prototype.getURL = function () {
 
 SlideInfo.prototype.getTitol = function () {
 
-	return $(this.options.titolInputId).val();
+	return $(this.options.titleInputId).val();
 
 };
 
@@ -175,13 +258,23 @@ SlideInfo.prototype.getDescripcio = function () {
 
 };
 
-SlideInfo.prototype.reset = function () {
+SlideInfo.prototype.reset = function (deleteURL) {
 
-	$(this.options.iFrameId).hide();
-	$(this.options.noURLId).show();
-	$(this.options.urlInputId).val("");
-	$(this.options.titolInputId).val("");
+	const shouldDeleteURL = deleteURL || (deleteURL === undefined);
+
+	$(this.options.titleInputId).val("");
 	$(this.options.textInputId).summernote("code", "");
+	$(this.options.titleFormGroup).removeClass("has-error");
+	$(this.options.titleFeedback).hide();
+
+	if (shouldDeleteURL) {
+
+		$(this.options.urlInputId).val("");
+		$(this.options.iFrameId).hide();
+		$(this.options.noURLId).show();
+		$(this.options.textInputId).summernote("disable");
+
+	}
 
 };
 
@@ -192,16 +285,20 @@ SlideInfo.prototype.setData = function (url, titol, descripcio) {
 		$(this.options.iFrameId).attr("src", url);
 		$(this.options.noURLId).hide();
 		$(this.options.iFrameId).show();
+		this.enableSlideInputs();
+		this.enableURLButtons();
 
 	} else {
 
 		$(this.options.iFrameId).hide();
 		$(this.options.noURLId).show();
+		this.disableSlideInputs();
+		this.disableURLButtons();
 
 	}
 
 	$(this.options.urlInputId).val(url);
-	$(this.options.titolInputId).val(titol);
+	$(this.options.titleInputId).val(titol);
 	$(this.options.textInputId).summernote("code", descripcio);
 
 };
@@ -225,5 +322,13 @@ SlideInfo.prototype.open = function () {
 SlideInfo.prototype.enableSaving = function (shouldEnable) {
 
 	$(this.options.saveSlideButtonId).prop("disabled", !shouldEnable);
+
+};
+
+SlideInfo.prototype.saved = function () {
+
+	this.enableSlideInputs();
+	this.setDirty(false);
+	$(this.options.spinnerId).hide();
 
 };

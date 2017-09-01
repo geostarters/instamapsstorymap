@@ -31,9 +31,8 @@ StoryMapServer.prototype.editMapSlides = function (idMapaEditing) {
 
 		method: "GET",
 		url: `${this.options.urlStoryMap}edit/${idMapaEditing}`,
-		async: false,
 
-	}).responseText;
+	});
 
 };
 StoryMapServer.prototype.newMapSlides = function (jsonSlides) {

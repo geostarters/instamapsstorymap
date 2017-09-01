@@ -1,11 +1,11 @@
 jQuery(document).ready(function() 
 {
 
-	var storymap = new StoryMap();
+	var storymap = new StoryMap({language: "ca"});
 
-	eventsButtons();
+	eventsButtons(storymap);
 
-	var id = url('#id') || null;
+	var id = url('?id') || null;
 	if (id != null) {//Comprovem id mapa editor per carregar slides
 
 		storymap.load(id);
@@ -14,10 +14,20 @@ jQuery(document).ready(function()
 	
 });
 
-function eventsButtons(){
+function eventsButtons(storymap){
 	
 	 $('#storymap_save').click(function(event){
-		alert("URL editor:"+window.location+"id="+$('#idEditor').val() +"URL mapa:"+window.location.replace("editor","visor")+"id="+$('#idStoryMap').val()); 
+
+	 	storymap.save().then((results) => {
+
+	 		storymap.publish();
+
+	 	}, 
+	 	() => {
+
+	 		showErrorPublicant();
+
+	 	});
 		
 	});
 

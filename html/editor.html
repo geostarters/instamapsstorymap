@@ -23,10 +23,21 @@
         <div class="slide-title"><%= text || "(untitled)" %></div>
     </li>
 </script>
+<script id="dialog_template" type="text/template">
+	<div id="<%= id %>" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<div id="msg"></div>
+			<div class="modal-footer">
+				<button lang="ca" type="button" class="btn btn-default btn-ok" data-dismiss="modal">Acceptar</button>
+				<button lang="ca" type="button" class="btn btn-danger btn-ko" data-dismiss="modal">Cancel·lar</button>
+			</div>
+		</div>
+	</div>
+</script>
 <div class="menu-bar">
     <div class="menu-bar-right">
-        <!-- <button id="storymap_save" class="btn disabled"><i class="icon-save"></i> Save StoryMap</button>
-        <button id="storymap_publish" class="btn hide"><i class="icon-repeat"></i> Publish Changes</button> -->
+        <button id="storymap_save" class="btn"><i class="icon-save"></i> Guarda l'story map</button>
     </div>
 </div>
 <div class="slides-section">
@@ -35,7 +46,7 @@
         </ol>
 	    <div class="slides-add" id="storymap_add_slide" >
 			<div class="slide-icon2"></div>
-			<div class="slide-title" id="addSlide">Add Slide</div>
+			<div class="slide-title" id="addSlide">Afegeix diapositiva</div>
 		</div>
     </div>
 </div>
@@ -55,85 +66,41 @@
 		<div id="mapaFrame" class="collapsed">
 			<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
 			<div id="noURLLoaded">
-				<div id="noURLMessage">No URL loaded</div>
+				<div id="noURLMessage">Cap adreça carregada</div>
 			</div>
 		</div>
 		<div id="dataSection">
 			<div id="inputs">
-				<input id="urlMap" type="text" placeholder="URL" class="editor-headline">
-				<button id="storymap_load" class="btn"><i class="icon-save"></i> Load URL</button>
-				<button id="storymap_unload" class="btn"><i class="icon-repeat"></i> Clear URL</button>
-				<br/><br/>
-				<input id="headline" type="text" placeholder="Títol" class="editor-headline">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="input-group">
+							<div id="urlFormGroup" class="form-group has-feedback">
+								<input id="urlMap" type="text" class="form-control" placeholder="Introdueix una URL">
+								<span id="urlMapFeedback" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="display:none;"></span>
+							</div>
+							<span class="input-group-btn">
+								<button id="storymap_load" class="btn" type="button" disabled><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+								<button id="storymap_unload" class="btn" disabled><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button>
+							</span>
+						</div><!-- /input-group -->
+					</div><!-- /.col-lg-6 -->
+				</div><!-- /.row -->
+				<hr>
+				<div class="row">
+					<div class="col-lg-12">
+						<div id="titleFormGroup" class="form-group has-error has-feedback">
+							<input id="title" type="text" class="form-control" placeholder="Títol" disabled>
+							<span id="titleFeedback" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="display:none"></span>
+						</div>
+					</div><!-- /.col-lg-6 -->
+				</div><!-- /.row -->
 			</div>
 			<div id="summernote"></div>
-			<button id="storymap_reset_slide" class="btn btn-danger" disabled><i class="icon-reset"></i>Reset slide</button>
-			<button id="storymap_save_slide" class="btn btn-primary" disabled><i class="icon-save"></i>Save slide</button>
+			<button id="storymap_reset_slide" class="btn btn-danger" disabled><i class="icon-reset"></i>Netejar</button>
+			<button id="storymap_save_slide" class="btn btn-info" disabled><i class="icon-save"></i>Guardar</button>
+			<div id="saveSlideSpinner" class="spinner" style="display: none;"></div>
 		</div>
 	</div>
-</div>
-
-<!-- START BOOTSTRAP-WYSIHTML5 BUTTON TEMPLATES -->
-<ul id="wysihtml5_emphasis" style="display: none;">
-    <li>
-    <div class="btn-group">
-    <a class="btn btn-small" data-wysihtml5-command="bold" title="Bold" tabindex="-1" href="javascript:;" unselectable="on"><i class="icon-bold"></i></a>
-    <a class="btn btn-small" data-wysihtml5-command="italic" title="Italic" tabindex="-1" href="javascript:;" unselectable="on"><i class="icon-italic"></i></a>
-    </div>
-    </li>
-</ul>
-<ul id="wysihtml5_link" style="display: none;">
-<li>
-    <div class="bootstrap-wysihtml5-insert-link-modal modal hide fade">
-    <div class="modal-body">
-    <p><input value="http://" class="bootstrap-wysihtml5-insert-link-url input-xlarge"></p>
-    <label class="checkbox"> <input type="checkbox" class="bootstrap-wysihtml5-insert-link-target" checked="">Open link in new window</label>
-    </div>
-    <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert link</a>
-    </div>
-    </div>
-    <a class="btn btn-small" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1" href="javascript:;" unselectable="on"><i class="icon-link"></i></a>
-</li>
-</ul>
-<ul id="wysihtml5_html" style="display: none;">
-<li>
-    <div class="btn-group">
-    <a class="btn btn-small" data-wysihtml5-action="change_view" title="Edit HTML" tabindex="-1" href="javascript:;" unselectable="on">&lt;/&gt;</a>
-    </div>
-</li>
-</ul>
-<!-- END BOOTSTRAP-WYSIHTML5 BUTTON TEMPLATES -->
-<!-- The Modal -->
-<div id="dialog_load_map" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Afegeix la URL del mapa sobre el que vols fer la historia</p>
-	<input type="text" id="urlInstamaps" maxSize=200/>
- 	<div class="modal-footer">
-				<button lang="ca" type="button" class="btn btn-default"
-					data-dismiss="modal">Carregar</button>
-				<button lang="ca" type="button" class="btn btn-danger"
-					data-dismiss="modal">Cancel·lar</button>
-	</div>
-	  </div>
-</div>
-
-<div id="dialog_delete_slide" class="modal delete_slide" >
-
-    <!-- Modal content -->
-    <div class="modal-content">
-    <span class="close">&times;</span>
-		<div id="msg"></div>
-		<div class="modal-footer">
-			<button lang="ca" type="button" class="btn btn-default"
-				data-dismiss="modal">Aceptar</button>
-			<button lang="ca" type="button" class="btn btn-danger"
-				data-dismiss="modal">Cancel·lar</button>
-		</div>
-    </div>
 </div>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
