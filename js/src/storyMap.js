@@ -76,7 +76,7 @@ StoryMap.prototype.addSlide = function () {
 	const n = this._slides.length;
 	if (n === this.options.maxSlides) {
 
-		alert(this.options.strings[this.options.language].maxSlides);
+		//alert(this.options.strings[this.options.language].maxSlides);
 
 	}	else {
 
@@ -201,7 +201,8 @@ StoryMap.prototype.load = function (id) {
 
 };
 
-StoryMap.prototype.show_confirm = function () { /* (msg, slideElem, slideIndex) {
+/*
+StoryMap.prototype.show_confirm = function () {  (msg, slideElem, slideIndex) {
 
 	const modal = document.getElementById("dialog_delete_slide");
 	$("#msg").html(`<span>${msg}</span>`);
@@ -260,6 +261,6 @@ StoryMap.prototype.show_confirm = function () { /* (msg, slideElem, slideIndex) 
 		modal = document.getElementById("dialog_delete_slide");
 		modal.style.display = "none";
 
-	});*/
+	});
 
-};
+};*/
