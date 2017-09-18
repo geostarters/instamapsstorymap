@@ -4,7 +4,6 @@ function SlideBar(options) {
 
 	const _defaultOptions = {
 		maxSlides: 10,
-		slideIconRegex: /^slide-icon-\w+$/,
 		slidesContainerId: "#slidesContainer",
 		slideListId: "#slideList",
 		addSlideButton: "#storymap_add_slide",
@@ -60,6 +59,8 @@ SlideBar.prototype.addSlide = function (click) {
 
 	}
 
+	self.updateSlideNums();
+
 };
 
 SlideBar.prototype.addSlides = function (slides) {
@@ -76,12 +77,23 @@ SlideBar.prototype.addSlides = function (slides) {
 SlideBar.prototype.removeSlide = function (id) {
 
 	$(`${this.options.slideListId} li:nth-child(${id + 1})`).remove();
+	this.updateSlideNums();
 
 };
 
 SlideBar.prototype.setSlideTitle = function (text) {
 
 	$(`${this.options.slideListId} li.selected>.slide-title`).html(text);
+
+};
+
+SlideBar.prototype.updateSlideNums = function () {
+
+	$(`${this.options.slideListId} .slide-num`).each((index, elem) => {
+
+		$(elem).html(index + 1);
+
+	});
 
 };
 

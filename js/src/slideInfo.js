@@ -13,6 +13,7 @@ function SlideInfo(index, options) {
 		titleFormGroup: "#titleFormGroup",
 		titleFeedback: "#titleFeedback",
 		infoButtonId: "#obrir_menu",
+		settingsButtonId: "#settings_menu",
 		saveSlideButtonId: "#storymap_save_slide",
 		resetSlideButtonId: "#storymap_reset_slide",
 		textInputId: "#summernote",
@@ -20,6 +21,7 @@ function SlideInfo(index, options) {
 		noURLId: "#noURLLoaded",
 		iFrameContainerId: "#mapaFrame",
 		dataContainerId: "#dataSection",
+		settingsContainerId: "#settingsSection",
 		spinnerId: "#saveSlideSpinner",
 		defaultUrl: "https://www.instamaps.cat/geocatweb/visor.html?embed=1",
 
@@ -66,6 +68,24 @@ SlideInfo.prototype.addEvents = function () {
 			self.close();
 
 		}
+
+		self.showInfoPanel();
+
+	});
+
+	$(self.options.settingsButtonId).on("click", () => {
+
+		if ($(self.options.iFrameContainerId).hasClass("expanded")) {
+
+			self.open();
+
+		} else {
+
+			self.close();
+
+		}
+
+		self.showSettingsPanel();
 
 	});
 
@@ -330,5 +350,19 @@ SlideInfo.prototype.saved = function () {
 	this.enableSlideInputs();
 	this.setDirty(false);
 	$(this.options.spinnerId).hide();
+
+};
+
+SlideInfo.prototype.showInfoPanel = function () {
+
+	$(this.options.dataContainerId).show();
+	$(this.options.settingsContainerId).hide();
+
+};
+
+SlideInfo.prototype.showSettingsPanel = function () {
+
+	$(this.options.dataContainerId).hide();
+	$(this.options.settingsContainerId).show();
 
 };

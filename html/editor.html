@@ -19,14 +19,15 @@
 <body class="wysihtml5-supported">
 <script id="storymap_slide_template" type="text/template">
     <li class="slide">
-        <div class="slide-icon"></div>
+        <div class="slide-icon" data-toggle="tooltip" title="Selecciona la diapositiva"></div>
+        <div class="slide-num">1</div>.
         <div class="slide-title"><%= text || "(untitled)" %></div>
     </li>
 </script>
 <script id="dialog_template" type="text/template">
 	<div id="<%= id %>" class="modal">
 		<div class="modal-content">
-			<span class="close">&times;</span>
+			<span class="close" data-toggle="tooltip" title="Elimina la diapositiva">&times;</span>
 			<div id="msg"></div>
 			<div class="modal-footer">
 				<button lang="ca" type="button" class="btn btn-default btn-ok" data-dismiss="modal">Acceptar</button>
@@ -37,26 +38,33 @@
 </script>
 <div class="menu-bar">
     <div class="menu-bar-right">
-        <button id="storymap_save" class="btn"><i class="icon-save"></i> Guarda l'story map</button>
+        <button id="storymap_save" class="btn" data-toggle="tooltip" title="Guarda story map"><i class="icon-save"></i> Guarda l'story map</button>
     </div>
 </div>
 <div class="slides-section">
     <div id="slidesContainer">
         <ol id="slideList">
         </ol>
-	    <div class="slides-add" id="storymap_add_slide" >
+	    <div class="slides-add" id="storymap_add_slide" data-toggle="tooltip" title="Afegeix diapositiva">
 			<div class="slide-icon2"></div>
-			<div class="slide-title" id="addSlide">Afegeix diapositiva</div>
+			<div class="slide-add-title" id="addSlide">Afegeix diapositiva</div>
 		</div>
     </div>
 </div>
 <div id="rightBar">
 	<div class="icono--div">
 		<div class="icono">
-			<a id="obrir_menu" href="#">
+			<a id="obrir_menu" href="#" data-toggle="tooltip" title="Informació de la diapositiva">
 				<span class="span__raya"></span>
 				<span class="span__raya"></span>
 				<span class="span__raya"></span>
+			</a>
+		</div>
+	</div>
+	<div class="icono--div">
+		<div class="icono icon2">
+			<a id="settings_menu" href="#" data-toggle="tooltip" title="Configuració de l'story map">
+				<i class="glyphicon glyphicon-cog centered-icon" aria-hidden="true"></i>
 			</a>
 		</div>
 	</div>
@@ -75,12 +83,12 @@
 					<div class="col-lg-12">
 						<div class="input-group">
 							<div id="urlFormGroup" class="form-group has-feedback">
-								<input id="urlMap" type="text" class="form-control" placeholder="Introdueix una URL">
+								<input id="urlMap" type="text" class="form-control" placeholder="Introdueix una URL" data-toggle="tooltip" title="Introdueix una URL">
 								<span id="urlMapFeedback" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="display:none;"></span>
 							</div>
 							<span class="input-group-btn">
-								<button id="storymap_load" class="btn" type="button" disabled><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
-								<button id="storymap_unload" class="btn" disabled><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span></button>
+								<button id="storymap_load" class="btn" type="button" disabled data-toggle="tooltip" title="Actualitza URL"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span></button>
+								<button id="storymap_unload" class="btn" disabled data-toggle="tooltip" title="Elimina URL"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></button>
 							</span>
 						</div><!-- /input-group -->
 					</div><!-- /.col-lg-6 -->
@@ -89,16 +97,18 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div id="titleFormGroup" class="form-group has-error has-feedback">
-							<input id="title" type="text" class="form-control" placeholder="Títol" disabled>
+							<input id="title" type="text" class="form-control" placeholder="Títol" disabled data-toggle="tooltip" title="Títol">
 							<span id="titleFeedback" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true" style="display:none"></span>
 						</div>
 					</div><!-- /.col-lg-6 -->
 				</div><!-- /.row -->
 			</div>
 			<div id="summernote"></div>
-			<button id="storymap_reset_slide" class="btn btn-danger" disabled><i class="icon-reset"></i>Netejar</button>
-			<button id="storymap_save_slide" class="btn btn-info" disabled><i class="icon-save"></i>Guardar</button>
+			<button id="storymap_reset_slide" class="btn btn-danger" disabled data-toggle="tooltip" title="Neteja la diapositiva"><i class="icon-reset"></i>Netejar</button>
+			<button id="storymap_save_slide" class="btn btn-info" disabled data-toggle="tooltip" title="Guarda la diapositiva"><i class="icon-save"></i>Guardar</button>
 			<div id="saveSlideSpinner" class="spinner" style="display: none;"></div>
+		</div>
+		<div id="settingsSection" style="display: none;">
 		</div>
 	</div>
 </div>

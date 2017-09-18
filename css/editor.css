@@ -542,8 +542,8 @@ a.list-item-options:hover {
 	height: 72px;
 }
 
-.slide-title {
-	display: block;
+.slide-title, .slide-add-title {
+	display: inline;
 	width:80px;
 	text-align: left;
 	overflow: hidden;
@@ -551,22 +551,23 @@ a.list-item-options:hover {
 	text-overflow: ellipsis;
 	font-size:11px;
 	font-family: "Apres RE","Helvetica Neue",Helvetica,Arial,sans-serif;
-	margin-left:25px;
 	margin-right:25px;
 	color:#666;
 }
 
-.slides-container .slide:first-child {
-	margin-left:0;
+.slide-add-title {
+	margin-left:25px;
 }
-.slide-title {
-	margin-left:45px;
 
+.slide-num {
+	display: inline;
+    margin-left: 5px;
+    font-size:11px;
+	font-family: "Apres RE","Helvetica Neue",Helvetica,Arial,sans-serif;
+	color:#DA0000;
+	font-weight: bold;
 }
-.slides-container .slide:first-child .slide-title {
-	margin-left:45px;
 
-}
 [class^="slide-icon-"], [class*=" slide-icon-"], .slide-icon {
 			font-family: 'vco-icons';
 			speak: none;
@@ -697,7 +698,7 @@ a.list-item-options:hover {
 	line-height: 0;
 	font-size:58px;
 	margin-top:-25px;
-
+	margin-left: 20px;
 }
 
 #storymap_add_slide .slide-icon2 {
@@ -1086,9 +1087,9 @@ animation: none;
 }
 .icono a {
   padding: 10px 15px;
-  background-color: #eee;
+  background-color: #ddd;
   display: inline-block;
-  color: #eee;
+  color: #ddd;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -ms-transition: all 0.5s ease;
@@ -1113,14 +1114,19 @@ animation: none;
   margin: 3px 0px;
 }
 
+.icon2 {
+	top: 44px;
+    width: 49px;
+    height: 50px;
+}
+
 #mapaFrame {
 
 	height:99%;
 
 }
 
-#dataSection {
-
+#dataSection, #settingsSection {
 	position: absolute;
 	top: 0px;
 	right: 0px;
@@ -1129,9 +1135,7 @@ animation: none;
 	padding-left: 5px;
 	padding-right: 5px;
 	padding-top: 10px;
-	background-color: rgba(238, 238, 238, 0.7);
-
-}
+	background-color: rgba(205, 205, 205, 0.7);}
 
 #dataSection input {
 	width: 100%;
@@ -1144,7 +1148,7 @@ animation: none;
     bottom: 0;
     top: 55px;
     right: 0px;
-    background-color: #eee;
+    background-color: #ddd;
 
 }
 
@@ -1170,8 +1174,14 @@ animation: none;
 	display: none;
 }
 
-#storymap_save_slide {
-	float: right;
+#storymap_save {
+	background-color: hsla(27, 86%, 50%, 1);
+	color: white;
+	border-color: white !important;
+}
+
+#storymap_save:hover {
+	background-color: hsla(27, 86%, 55%, 1);
 }
 
 #noURLLoaded {
@@ -1193,6 +1203,31 @@ animation: none;
 	float: right;
 }
 
+#storymap_reset_slide {
+	background-color: hsl(0, 100%, 43%);
+	color: white;
+}
+
+#storymap_reset_slide:hover {
+	background-color: hsl(0, 100%, 48%);
+}
+
+#storymap_save_slide {
+	float: right;
+	background-color: hsl(208, 56%, 46%);
+	color: white;
+}
+
+#storymap_save_slide:hover {
+	background-color: hsl(208, 56%, 51%);
+}
+
+#settings_menu {
+	color: black;
+	width: 100%;
+    height: 100%;
+}
+
 .spinner {
   width: 30px;
   height: 30px;
@@ -1201,6 +1236,11 @@ animation: none;
   border-radius: 100%;
   -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
   animation: sk-scaleout 1.0s infinite ease-in-out;
+}
+
+.centered-icon {
+	margin-top: 5px;
+    margin-left: 3px;
 }
 
 @-webkit-keyframes sk-scaleout {
