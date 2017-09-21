@@ -14,14 +14,15 @@
 
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <link href="../js/summernote/summernote.css" rel="stylesheet">
-
+<link rel="icon" type="image/png" sizes="32x32" href="../static/fav/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../static/fav/favicon-16x16.png">
 </head>
 <body class="wysihtml5-supported">
 <script id="storymap_slide_template" type="text/template">
     <li class="slide">
         <div class="slide-icon" data-toggle="tooltip" title="Selecciona la diapositiva"></div>
         <div class="slide-num">1</div>.
-        <div class="slide-title"><%= text || "(untitled)" %></div>
+        <div class="slide-title"><%= text || "(Sense títol)" %></div>
     </li>
 </script>
 <script id="dialog_template" type="text/template">
@@ -36,10 +37,18 @@
 		</div>
 	</div>
 </script>
-<div class="menu-bar">
-    <div class="menu-bar-right">
-        <button id="storymap_save" class="btn" data-toggle="tooltip" title="Guarda story map"><i class="icon-save"></i> Guarda l'story map</button>
-    </div>
+<div class="translucent">
+	<header>
+		<a href="https://www.instamaps.cat/" target="_parent">
+			<img src="../static/img/instamaps-v2-logo-flat.png" alt="Logo Instamaps" title="Inici" class="logo">
+		</a>
+	</header>
+	<nav id="menu-top" class="menu-main">
+		<ul>
+			<li>
+			</li>
+		</ul>
+	</nav>
 </div>
 <div class="slides-section">
     <div id="slidesContainer">
@@ -49,9 +58,15 @@
 			<div class="slide-icon2"></div>
 			<div class="slide-add-title" id="addSlide">Afegeix diapositiva</div>
 		</div>
+		<div class="slide-save" id="storymap_save" data-toggle="tooltip" title="Guarda l'storymap">
+			<div class="slide-icon3">
+				<i class="centered-icon glyphicon glyphicon-cloud-upload"></i>
+			</div>
+			<div class="slide-save-title">Guarda</div>
+		</div>
     </div>
 </div>
-<div id="rightBar">
+<!-- <div id="rightBar">
 	<div class="icono--div">
 		<div class="icono">
 			<a id="obrir_menu" href="#" data-toggle="tooltip" title="Informació de la diapositiva">
@@ -68,16 +83,27 @@
 			</a>
 		</div>
 	</div>
-</div>
-<div class="tabs-section">
-	<div id="map-div">
-		<div id="mapaFrame" class="collapsed">
-			<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-			<div id="noURLLoaded">
-				<div id="noURLMessage">Cap adreça carregada</div>
-			</div>
-		</div>
+</div> -->
+<div id="mapviewer-floating-sidemenu" class="floating-menu showFloatingMenu">
+	<ul class="button-group">
+		<li id="obrir_menu" class="background-yellow glow slide-icon">
+			<a href="#" data-toggle="tooltip" title="Informació de la diapositiva">
+			</a>
+		</li>
+		<li id="settings_menu" class="background-green glow">
+			<a href="#" data-toggle="tooltip" title="Configuració de l'story map">
+				<i class="glyphicon glyphicon-cog" aria-hidden="true"></i>
+			</a>
+		</li>
+		<li id="hide_menu" class="background-blue release glow reveal" style="">
+			<a href="#" data-toggle="tooltip" title="Amaga menú">
+				<i class="glyphicon glyphicon-chevron-right" aria-hidden="true"></i>
+			</a>
+		</li>
+	</ul>
+	<div id="slideItems" class="items-wrapper">
 		<div id="dataSection">
+			<div class="section-title">Contingut de la diapositiva</div>
 			<div id="inputs">
 				<div class="row">
 					<div class="col-lg-12">
@@ -104,14 +130,94 @@
 				</div><!-- /.row -->
 			</div>
 			<div id="summernote"></div>
-			<button id="storymap_reset_slide" class="btn btn-danger" disabled data-toggle="tooltip" title="Neteja la diapositiva"><i class="icon-reset"></i>Netejar</button>
-			<button id="storymap_save_slide" class="btn btn-info" disabled data-toggle="tooltip" title="Guarda la diapositiva"><i class="icon-save"></i>Guardar</button>
+			<div id="storymap_reset_slide" disabled data-toggle="tooltip" title="Neteja la diapositiva"><i class="icon-reset"></i>Cancel·la</div>
 			<div id="saveSlideSpinner" class="spinner" style="display: none;"></div>
 		</div>
-		<div id="settingsSection" style="display: none;">
+	</div>
+	<div id="settingsSection" class="items-wrapper" style="display:none">
+		<div class="section-title">Configuració de l'story map</div>
+		<div class="text">Selecciona un estil de superposició:</div>
+		<div id="superposat" class="modeSelectorExtern active">
+			<div class="modeSelectorCB"></div>
+			<div class="modeSelector">
+				<img src="../static/img/expandit150.PNG" alt="Text superposat al mapa" class="modeSelectorImage">
+				<div class="modeSelectorTextContainer">
+					<div class="modeSelectorTitle">Superposat</div>
+					<div class="modeSelectorText">El text de les diapositives se superposa a la web utilitzant transparència</div>
+				</div>
+			</div>
+		</div>
+		<div id="noSuperposat" class="modeSelectorExtern">
+			<div class="modeSelectorCB"></div>
+			<div class="modeSelector">
+				<img src="../static/img/restringit150.PNG" alt="Text no superposat a la web" class="modeSelectorImage">
+				<div class="modeSelectorTextContainer">
+					<div class="modeSelectorTitle">No superposat</div>
+					<div class="modeSelectorText">El text de les diapositives no se superposa a la web</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<div class="text">Selecciona les opcions de visualització:</div>
+		<input type="checkbox" name="autocycle" id="animCheckbox" checked>
+		<label for="animCheckbox" class="cbLabel">
+			<span class="ui"></span>Anima la presentació
+		</label>
+		<div class="outerAnimParams">
+			<div id="animParams" class="showAnimParams">
+				<label for="carouselTime" class="text" id="carouselTimeLabel">Temps entre diapositives</label>
+				<div class="input-group">
+					<input type="text" class="form-control" id="carouselTime" aria-label="Temps entre diapositives en segons" value="5">
+					<span class="input-group-addon">segons</span>
+				</div>
+				<input type="checkbox" name="pause" id="pauseCheckbox" checked>
+				<label for="pauseCheckbox" class="cbLabel">
+					<span class="ui"></span>Pausa la presentació amb el ratolí al damunt
+				</label>
+				<input type="checkbox" name="ride" id="rideCheckbox" checked>
+				<label for="rideCheckbox" class="cbLabel">
+					<span class="ui"></span>Inicia l'animació automàticament al carregar
+				</label>
+				<input type="checkbox" name="autostart" id="afterFirstCheckbox" checked>
+				<label for="afterFirstCheckbox" class="cbLabel">
+					<span class="ui"></span>Inicia l'animació al passar la primera diapositiva
+				</label>
+				<input type="checkbox" name="wrap" id="wrapCheckbox" checked>
+				<label for="wrapCheckbox" class="cbLabel">
+					<span class="ui"></span>Torna a començar al finalitzar
+				</label>
+			</div>
 		</div>
 	</div>
 </div>
+<div class="tabs-section">
+	<div id="map-div">
+		<div id="mapaFrame" class="collapsed">
+			<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="display:none;"></iframe>
+			<div id="noURLLoaded">
+				<div id="noURLMessage">Cap adreça carregada</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="modal-loader" class="loader-viewer loaderAnimationIn" style="display: none;">
+	<div class="loader-bar-animated">
+		<div class="bar"></div>
+		<div class="bar"></div>
+		<div class="bar"></div>
+		<div class="bar"></div>
+	</div>
+	<div class="loader-contents">
+		<h2 class="loader-title">Carregant</h2>
+		<p>Espereu un moment...</p>
+	</div>
+</div>
+<footer class="background-light">
+	<a href="http://www.icgc.cat" target="_blank">
+		<img src="../static/img/icgc-logo.png" alt="Institut Cartogràfic i Geològic de Catalunya" class="footer-logo">
+	</a>
+	<div class="clear-fix"></div>
+</footer>
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 <script src="../js/jquery-2.1.4.min.js"></script>
