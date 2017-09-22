@@ -1,4 +1,4 @@
-/* global InfoPanel, SettingsPanel, $*/
+/* global InfoPanel, SettingsPanel, Utils, $*/
 
 function SlideInfo(index, options) {
 
@@ -10,6 +10,7 @@ function SlideInfo(index, options) {
 		iFrameId: "#instamapsMap",
 		noURLId: "#noURLLoaded",
 		menuContainerId: "#mapviewer-floating-sidemenu",
+		mapaFrame: "#mapaFrame",
 		defaultUrl: "https://www.instamaps.cat/geocatweb/visor.html?embed=1",
 
 	};
@@ -67,19 +68,54 @@ SlideInfo.prototype.addEvents = function () {
 
 	});
 
+	$(this.settingsPanel).on("Settings:overlappingChanged", (event, isOverlapped) => {
+
+		if (isOverlapped) {
+
+			$(this.options.mapaFrame).removeClass("collapsed");
+			$(this.options.mapaFrame).addClass("expanded");
+
+		} else {
+
+			$(this.options.mapaFrame).removeClass("expanded");
+			$(this.options.mapaFrame).addClass("collapsed");
+
+		}
+
+	});
+
+	$(this.infoPanel).on("InfoPanel:loadURL", (event, url) => {
+
+		$(self.options.iFrameId).attr("src", Utils.addProtocolIfNeeded(url));
+		$(this.options.noURLId).hide();
+		$(this.options.iFrameId).show();
+
+	});
+
+	$(this.infoPanel).on("InfoPanel:clearURLPressed", () => {
+
+		$(this.options.noURLId).show();
+		$(this.options.iFrameId).hide();
+		$(self.options.iFrameId).attr("src", "");
+
+	});
+
 };
 
 SlideInfo.prototype.reset = function () {
 
 	this.infoPanel.reset();
-	this.settingsPanel.reset();
+
+};
+
+SlideInfo.prototype.clean = function () {
+
+	this.infoPanel.clean();
 
 };
 
 SlideInfo.prototype.close = function () {
 
-	$(this.options.menuContainerId).removeClass("collapsed");
-	$(this.options.menuContainerId).addClass("expanded");
 	$(this.options.menuContainerId).removeClass("showFloatingMenu");
 	$(this.options.menuContainerId).addClass("hideFloatingMenu");
 	$(this.options.closeButtonId).removeClass("reveal");
@@ -88,8 +124,6 @@ SlideInfo.prototype.close = function () {
 
 SlideInfo.prototype.open = function () {
 
-	$(this.options.menuContainerId).removeClass("expanded");
-	$(this.options.menuContainerId).addClass("collapsed");
 	$(this.options.menuContainerId).removeClass("hideFloatingMenu");
 	$(this.options.menuContainerId).addClass("showFloatingMenu");
 	$(this.options.closeButtonId).addClass("reveal");
@@ -115,5 +149,23 @@ SlideInfo.prototype.showSettingsPanel = function () {
 SlideInfo.prototype.setData = function (url, titol, descripcio) {
 
 	this.infoPanel.setData(url, titol, descripcio);
+
+};
+
+SlideInfo.prototype.getURL = function () {
+
+	return this.infoPanel.getURL();
+
+};
+
+SlideInfo.prototype.getTitol = function () {
+
+	return this.infoPanel.getTitol();
+
+};
+
+SlideInfo.prototype.getDescripcio = function () {
+
+	return this.infoPanel.getDescripcio();
 
 };

@@ -86,17 +86,17 @@
 </div> -->
 <div id="mapviewer-floating-sidemenu" class="floating-menu showFloatingMenu">
 	<ul class="button-group">
-		<li id="obrir_menu" class="background-yellow glow slide-icon">
-			<a href="#" data-toggle="tooltip" title="Informació de la diapositiva">
+		<li id="obrir_menu" class="background-yellow glow slide-icon" data-toggle="tooltip" title="Contingut de la diapositiva">
+			<a href="#">
 			</a>
 		</li>
-		<li id="settings_menu" class="background-green glow">
-			<a href="#" data-toggle="tooltip" title="Configuració de l'story map">
+		<li id="settings_menu" class="background-green glow" data-toggle="tooltip" title="Configuració de l'story map">
+			<a href="#">
 				<i class="glyphicon glyphicon-cog" aria-hidden="true"></i>
 			</a>
 		</li>
-		<li id="hide_menu" class="background-blue release glow reveal" style="">
-			<a href="#" data-toggle="tooltip" title="Amaga menú">
+		<li id="hide_menu" class="background-blue release glow reveal" style="" data-toggle="tooltip" title="Amaga menú">
+			<a href="#">
 				<i class="glyphicon glyphicon-chevron-right" aria-hidden="true"></i>
 			</a>
 		</li>
@@ -130,7 +130,7 @@
 				</div><!-- /.row -->
 			</div>
 			<div id="summernote"></div>
-			<div id="storymap_reset_slide" disabled data-toggle="tooltip" title="Neteja la diapositiva"><i class="icon-reset"></i>Cancel·la</div>
+			<div id="storymap_reset_slide" disabled data-toggle="tooltip" title="Descarta els canvis"><i class="icon-reset"></i>Descarta</div>
 			<div id="saveSlideSpinner" class="spinner" style="display: none;"></div>
 		</div>
 	</div>
@@ -164,7 +164,7 @@
 			<span class="ui"></span>Anima la presentació
 		</label>
 		<div class="outerAnimParams">
-			<div id="animParams" class="showAnimParams">
+			<div id="animParams">
 				<label for="carouselTime" class="text" id="carouselTimeLabel">Temps entre diapositives</label>
 				<div class="input-group">
 					<input type="text" class="form-control" id="carouselTime" aria-label="Temps entre diapositives en segons" value="5">
@@ -192,7 +192,7 @@
 </div>
 <div class="tabs-section">
 	<div id="map-div">
-		<div id="mapaFrame" class="collapsed">
+		<div id="mapaFrame" class="expanded">
 			<iframe id="instamapsMap" width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="display:none;"></iframe>
 			<div id="noURLLoaded">
 				<div id="noURLMessage">Cap adreça carregada</div>

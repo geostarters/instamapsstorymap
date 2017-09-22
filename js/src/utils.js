@@ -28,4 +28,20 @@ const Utils = {
 
 	},
 
+	addProtocolIfNeeded(url) {
+
+		let newURL = url;
+		const expression = /(?:https?:\/\/)/gi;
+		const regex = new RegExp(expression);
+
+		if (!regex.test(url)) {
+
+			newURL = `http://${newURL}`;
+
+		}
+
+		return newURL;
+
+	},
+
 };

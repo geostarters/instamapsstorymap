@@ -20,6 +20,7 @@ function InfoPanel(index, options) {
 
 	this.options = $.extend(true, {}, _defaultOptions, options);
 	this.isDirty = false;
+	this.loadedData = {};
 
 	this.addEvents();
 	this.setupSummernote();
@@ -49,7 +50,7 @@ InfoPanel.prototype.addEvents = function () {
 
 	$(self.options.resetSlideButtonId).on("click", () => {
 
-		self.reset(false);
+		self.reset();
 		self.setDirty(true);
 
 	});
@@ -69,6 +70,18 @@ InfoPanel.prototype.addEvents = function () {
 	$(self.options.textInputId).on("summernote.change", () => {
 
 		self.checkText();
+
+	});
+
+	$(self.options.urlInputId).keyup((event) => {
+
+		const url = $(this.options.urlInputId).val();
+
+		if (event.keyCode === 13 && Utils.isValidURL(url)) {
+
+			$(self.options.urlLoadButtonId).click();
+
+		}
 
 	});
 
@@ -199,9 +212,7 @@ InfoPanel.prototype.setURL = function () {
 	const self = this;
 
 	const url = $(self.options.urlInputId).val();
-	$(self.options.iFrameId).attr("src", url);
-	$(this.options.noURLId).hide();
-	$(this.options.iFrameId).show();
+	$(self).trigger("InfoPanel:loadURL", [url]);
 	self.enableSlideInputs();
 
 };
@@ -224,22 +235,50 @@ InfoPanel.prototype.getDescripcio = function () {
 
 };
 
-InfoPanel.prototype.reset = function (deleteURL) {
+InfoPanel.prototype.reset = function () {
 
-	const shouldDeleteURL = deleteURL || (deleteURL === undefined);
+	const title = this.loadedData.titol || "";
+	const desc = this.loadedData.descripcio || "";
+	const url = this.loadedData.url || "";
 
-	$(this.options.titleInputId).val("");
-	$(this.options.textInputId).summernote("code", "");
+	$(this.options.titleInputId).val(title);
+	$(this.options.textInputId).summernote("code", desc);
 	$(this.options.titleFormGroup).removeClass("has-error");
 	$(this.options.titleFeedback).hide();
+	$(this.options.urlInputId).val(url);
 
-	if (shouldDeleteURL) {
+	if (url.trim() !== "") {
 
-		$(this.options.urlInputId).val("");
+		$(this).trigger("InfoPanel:loadURL", [url]);
+		$(this.options.textInputId).summernote("enable");
+		this.enableURLButtons();
+		this.enableSlideInputs();
+
+	} else {
+
+		$(this).trigger("InfoPanel:clearURLPressed");
 		$(this.options.textInputId).summernote("disable");
-		$(this).trigger("InfoPanel:urlCleared");
+		this.disableURLButtons();
+		this.disableSlideInputs();
 
 	}
+
+};
+
+InfoPanel.prototype.clean = function () {
+
+	const title = "";
+	const desc = "";
+	const url = "";
+
+	$(this.options.titleInputId).val(title);
+	$(this.options.textInputId).summernote("code", desc);
+	$(this.options.titleFormGroup).removeClass("has-error");
+	$(this.options.titleFeedback).hide();
+	$(this.options.urlInputId).val(url);
+
+	this.disableURLButtons();
+	this.disableSlideInputs();
 
 };
 
@@ -251,6 +290,7 @@ InfoPanel.prototype.setData = function (url, titol, descripcio) {
 
 		this.enableSlideInputs();
 		this.enableURLButtons();
+		$(this).trigger("InfoPanel:loadURL", [url]);
 
 	} else {
 

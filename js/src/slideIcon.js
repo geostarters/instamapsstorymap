@@ -45,10 +45,10 @@ SlideIcon.prototype.clicked = function () {
 	const currentSlideIndex = $(self.options.slideClass).index(self.slideDOMElem);
 	$(":focus").blur(); // force change event!
 
+	$(self).trigger("Slide:selected", [currentSlideIndex]);
+
 	$(`${this.options.slideClass}.selected`).removeClass("selected");
 	$(self.slideDOMElem).addClass("selected");
-
-	$(self).trigger("Slide:selected", [currentSlideIndex]);
 
 	return false;
 

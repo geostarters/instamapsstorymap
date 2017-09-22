@@ -7,6 +7,7 @@ function SlideBar(options) {
 		slidesContainerId: "#slidesContainer",
 		slideListId: "#slideList",
 		addSlideButton: "#storymap_add_slide",
+		saveStorymapButton: "#storymap_save",
 
 	};
 
@@ -23,6 +24,12 @@ SlideBar.prototype.addEvents = function () {
 	$(self.options.addSlideButton).click(() => {
 
 		$(self).trigger("SlideBar:addSlidePressed");
+
+	});
+
+	$(self.options.saveStorymapButton).click(() => {
+
+		$(self).trigger("SlideBar:saveStorymapPressed");
 
 	});
 
@@ -83,7 +90,8 @@ SlideBar.prototype.removeSlide = function (id) {
 
 SlideBar.prototype.setSlideTitle = function (text) {
 
-	$(`${this.options.slideListId} li.selected>.slide-title`).html(text);
+	const title = (text.trim() !== "") ? text : "(Sense títol)";
+	$(`${this.options.slideListId} li.selected>.slide-title`).html(title);
 
 };
 

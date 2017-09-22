@@ -15,6 +15,7 @@ function SettingsPanel(index, options) {
 	};
 
 	this.options = $.extend(true, {}, _defaultOptions, options);
+	this.isOverlapped = true;
 	this.isDirty = false;
 
 	this.addEvents();
@@ -58,15 +59,19 @@ SettingsPanel.prototype.enableOverlappedMode = function (shouldEnable) {
 
 	if (shouldEnable) {
 
+		this.isOverlapped = true;
 		$(this.options.overlappedButtonId).addClass("active");
 		$(this.options.noOverlappedButtonId).removeClass("active");
 
 	} else {
 
+		this.isOverlapped = false;
 		$(this.options.overlappedButtonId).removeClass("active");
 		$(this.options.noOverlappedButtonId).addClass("active");
 
 	}
+
+	$(this).trigger("Settings:overlappingChanged", [this.isOverlapped]);
 	this.isDirty = true;
 
 };

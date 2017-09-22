@@ -1,4 +1,4 @@
-/* global $, SlideBar, SlideInfo, StoryMapServer, Dialog*/
+/* global $, SlideBar, SlideInfo, StoryMapServer, Dialog, Loader*/
 
 function StoryMap(options) {
 
@@ -23,8 +23,8 @@ function StoryMap(options) {
 				delete: "Elimina la diapositiva \"<<name>>\"?",
 			},
 		},
-		editorURL: "https://www.instamaps.cat/storymap/editor.html",
-		viewerURL: "https://www.instamaps.cat/storymap/visor.html",
+		editorURL: "http://172.70.1.11/storymap/html/editor.html",
+		viewerURL: "http://172.70.1.11/storymap/html/visor.html",
 
 	};
 
@@ -43,6 +43,7 @@ function StoryMap(options) {
 	this.maxSlidesDialog.setMessage(this.options.strings[this.options.language].maxSlides);
 	this.publishDialog = new Dialog({ showCancelButton: false });
 	this.server = new StoryMapServer();
+	this.loader = new Loader();
 
 	this.addEvents();
 	this._addSlide();
@@ -53,14 +54,24 @@ StoryMap.prototype.addEvents = function () {
 
 	const self = this;
 
-	$(self.slideInfoPanel).on("SlideInfo:saveSlidePressed", () => {
+	$(self.slideInfoPanel).on("SlideBar:saveStorymapPressed", () => {
 
-		self.saveSlide();
+		self.loader.setTitle("Guardant l'Storymap");
+		self.loader.show();
+
+		self.save().then(() => {
+
+			self.loader.hide();
+			self.publish();
+
+		});
 
 	});
 
 	$(self.slideBar).on("SlideBar:slideSelected", (event, id) => {
 
+		// Get the data from the info panel and add it to the current slide
+		self._updateCurrentSlideData();
 		self._slideSelected(id);
 
 	});
@@ -81,13 +92,6 @@ StoryMap.prototype.addEvents = function () {
 	$(self.deleteDialog).on("Dialog:accept", () => {
 
 		self._slideDeleteConfirmed();
-
-		if (this.currentSelectedIndex === this.currentDeletionIndex) {
-
-			this.slideInfoPanel.clear();
-
-		}
-
 		self.currentDeletionIndex = -1;
 
 	});
@@ -100,28 +104,9 @@ StoryMap.prototype.addEvents = function () {
 
 };
 
-StoryMap.prototype.saveSlide = function () {
-
-	// Agafar les dades de l'slideInfoPanel i guardar-les a l'objecte de l'slide
-	const slide = this.createSlideData(this.slides.length, this.slideInfoPanel.getURL(),
-		this.slideInfoPanel.getTitol(), this.slideInfoPanel.getDescripcio());
-
-	this.slideBar.setSlideTitle(slide.titol);
-	this.slides[this.currentSelectedIndex] = slide;
-	this.isDirty = true;
-
-	// Guardem les dades al servidor
-	this.save().then(() => {
-
-		this.slideInfoPanel.saved();
-
-	});
-
-};
-
 StoryMap.prototype.createSlideData = function (id, url, titol, descripcio) {
 
-	const slideId = id || -1;
+	const slideId = (id === undefined) ? -1 : id;
 	const slideURL = url || "";
 	const slideTitol = titol || "";
 	const slideDesc = descripcio || "";
@@ -159,12 +144,37 @@ StoryMap.prototype._addSlide = function () {
 
 StoryMap.prototype._slideSelected = function (index) {
 
-	if (this.slides != null) {
+	if (this.slides !== null) {
 
 		this.currentSelectedIndex = index;
 		const currentSlide = this.slides[index];
 		this.slideInfoPanel.setData(currentSlide.url_mapa, currentSlide.titol, currentSlide.descripcio);
 		this.slideInfoPanel.open();
+
+	}
+
+};
+
+StoryMap.prototype._updateCurrentSlideData = function () {
+
+	if (this.slides !== null) {
+
+		if (this.currentSelectedIndex !== -1) {
+
+			const currentSlide = this.slides[this.currentSelectedIndex];
+			const url = this.slideInfoPanel.getURL();
+
+			if (url.trim() !== "") {
+
+				currentSlide.url_mapa = this.slideInfoPanel.getURL();
+				currentSlide.titol = this.slideInfoPanel.getTitol();
+				currentSlide.descripcio = this.slideInfoPanel.getDescripcio();
+				this.slideBar.setSlideTitle(currentSlide.titol);
+				this.isDirty = true;
+
+			}
+
+		}
 
 	}
 
@@ -268,6 +278,8 @@ StoryMap.prototype.load = function (id) {
 	const self = this;
 
 	self.idEditor = id;
+	self.loader.setTitle("Carregant l'Storymap");
+	self.loader.show();
 
 	self.server.editMapSlides(id).then((results) => {
 
@@ -276,6 +288,7 @@ StoryMap.prototype.load = function (id) {
 		self.slides = JSON.parse(results.slides);
 		self.slideBar.clear();
 		self.slideBar.addSlides(self.slides);
+		self.loader.hide();
 
 	});
 
@@ -288,6 +301,7 @@ StoryMap.prototype._slideDeleteConfirmed = function () {
 	self.isDirty = true;
 	self.slides.splice(this.currentDeletionIndex, 1);
 	self.slideBar.removeSlide(this.currentDeletionIndex);
+	self.slideInfoPanel.clean();
 
 };
 

@@ -41,7 +41,7 @@ button.btn, .btn-group>.btn, .btn-group>.dropdown-menu, .btn-group>.popover {
 
 label, select, textarea {font-size: 14px;}
 
-input[type="text"]:not(#headline) {font-size: 14px;line-height: 18px;}
+input[type="text"]:not(#headline) {font-size: 14px;line-height: 18px;border-radius: 0px; */}
 input[type="text"].editor-headline {
 	font-size: 28px !important;
 	line-height: 28px !important;
@@ -1190,7 +1190,17 @@ animation: none;
 	height: 49px;
 }
 
-#mapaFrame {height: 100%;}
+#mapaFrame {
+	height: 100%;
+}
+
+.collapsed {
+	width: calc(100% - 380px);
+}
+
+.expanded {
+	width: 100%;
+}
 
 #dataSection, #settingsSection {
 	position: absolute;
@@ -1202,7 +1212,7 @@ animation: none;
 	padding-right: 10px;
 	border-left: 5px solid #2EBAE6;
 	padding-top: 10px;
-	background-color: rgba(255, 255, 255, 0.7);
+	background-color: rgba(255, 255, 255, 0.9);
 	}
 
 #dataSection input {
@@ -1836,6 +1846,7 @@ body {
 #carouselTimeLabel {
 	margin-bottom: 10px;
 	margin-top: 10px;
+	font-weight: 100;
 }
 
 .showAnimParams {
@@ -1870,4 +1881,8 @@ body {
 
 #animParams {
 	padding-bottom: 10px;
+}
+
+.input-group-addon {
+	border-radius: 0px !important;
 }
