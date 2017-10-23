@@ -75,7 +75,8 @@ SlideBar.prototype.addSlides = function (slides) {
 	for (let i = 0, len = slides.length; i < len; ++i) {
 
 		this.addSlide(i === (len - 1));
-		$(`${this.options.slideListId} li:nth-child(${i + 1})>.slide-title`).html(slides[i].titol);
+		const titol = (slides[i].titol.trim() !== "") ? slides[i].titol : "(Sense títol)";
+		$(`${this.options.slideListId} li:nth-child(${i + 1}) .slide-title`).html(titol);
 
 	}
 
@@ -91,7 +92,7 @@ SlideBar.prototype.removeSlide = function (id) {
 SlideBar.prototype.setSlideTitle = function (text) {
 
 	const title = (text.trim() !== "") ? text : "(Sense títol)";
-	$(`${this.options.slideListId} li.selected>.slide-title`).html(title);
+	$(`${this.options.slideListId} li.selected .slide-title`).html(title);
 
 };
 

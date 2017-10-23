@@ -11,6 +11,11 @@ function SettingsPanel(index, options) {
 		animParametersPanelId: "#animParams",
 		animCheckbox: "#animCheckbox",
 		panelId: "#settingsSection",
+		carouselTime: "#carouselTime",
+		pauseCheckbox: "#pauseCheckbox",
+		rideCheckbox: "#rideCheckbox",
+		afterFirstCheckbox: "#afterFirstCheckbox",
+		wrapCheckbox: "#wrapCheckbox",
 
 	};
 
@@ -106,5 +111,90 @@ SettingsPanel.prototype.enableAnimParameters = function (shouldEnable) {
 		$(this.options.animParametersPanelId).removeClass("showAnimParams").addClass("hideAnimParams");
 
 	}
+
+};
+
+SettingsPanel.prototype.getOverlappingMode = function () {
+
+	return ($(this.options.overlappedButtonId).hasClass("active") ? "overlapped" : "noOverlapped");
+
+};
+
+SettingsPanel.prototype.isAnimated = function () {
+
+	return $(this.options.animCheckbox).is(":checked");
+
+};
+
+SettingsPanel.prototype.getTimeBetweenSlides = function () {
+
+	return $(this.options.carouselTime).val();
+
+};
+
+SettingsPanel.prototype.shouldPauseOnHover = function () {
+
+	return $(this.options.pauseCheckbox).is(":checked");
+
+};
+
+SettingsPanel.prototype.shouldStartOnLoad = function () {
+
+	return $(this.options.rideCheckbox).is(":checked");
+
+};
+
+SettingsPanel.prototype.shouldAnimOnFirstSlide = function () {
+
+	return $(this.options.afterFirstCheckbox).is(":checked");
+
+};
+
+SettingsPanel.prototype.shouldLoop = function () {
+
+	return $(this.options.wrapCheckbox).is(":checked");
+
+};
+
+SettingsPanel.prototype.setOverlappingMode = function (shouldOverlap) {
+
+	this.enableOverlappedMode(shouldOverlap === "overlapped");
+
+};
+
+SettingsPanel.prototype.setIsAnimated = function (shouldAnimate) {
+
+	$(this.options.animCheckbox).prop("checked", shouldAnimate);
+	this.enableAnimParameters(shouldAnimate);
+
+};
+
+SettingsPanel.prototype.setTimeBetweenSlides = function (time) {
+
+	$(this.options.carouselTime).val(time);
+
+};
+
+SettingsPanel.prototype.setPauseOnHover = function (shouldPause) {
+
+	$(this.options.pauseCheckbox).prop("checked", shouldPause);
+
+};
+
+SettingsPanel.prototype.setStartOnLoad = function (shouldStart) {
+
+	$(this.options.rideCheckbox).prop("checked", shouldStart);
+
+};
+
+SettingsPanel.prototype.setAnimOnFirstSlide = function (shouldAnimate) {
+
+	$(this.options.afterFirstCheckbox).prop("checked", shouldAnimate);
+
+};
+
+SettingsPanel.prototype.setLoop = function (shouldLoop) {
+
+	$(this.options.wrapCheckbox).prop("checked", shouldLoop);
 
 };

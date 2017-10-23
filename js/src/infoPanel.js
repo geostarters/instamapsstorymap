@@ -89,7 +89,9 @@ InfoPanel.prototype.addEvents = function () {
 
 InfoPanel.prototype.setupSummernote = function () {
 
-	$(this.options.textInputId).summernote({ disableDragAndDrop: true,
+	$(this.options.textInputId).summernote({
+		disableDragAndDrop: true,
+		dialogsInBody: true,
 		toolbar: [
 			["style", ["color"]],
 			["style", ["style"]],
@@ -290,7 +292,6 @@ InfoPanel.prototype.setData = function (url, titol, descripcio) {
 
 		this.enableSlideInputs();
 		this.enableURLButtons();
-		$(this).trigger("InfoPanel:loadURL", [url]);
 
 	} else {
 
@@ -299,6 +300,7 @@ InfoPanel.prototype.setData = function (url, titol, descripcio) {
 
 	}
 
+	$(this).trigger("InfoPanel:loadURL", [url]);
 	$(this.options.urlInputId).val(url);
 	$(this.options.titleInputId).val(titol);
 	$(this.options.textInputId).summernote("code", descripcio);

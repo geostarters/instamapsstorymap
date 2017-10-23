@@ -23,8 +23,9 @@ function StoryMap(options) {
 				delete: "Elimina la diapositiva \"<<name>>\"?",
 			},
 		},
-		editorURL: "http://172.70.1.11/storymap/html/editor.html",
-		viewerURL: "http://172.70.1.11/storymap/html/visor.html",
+		editorURL: "http://betaserver2.icgc.cat/storymap/html/editor.html",
+		viewerURL: "http://betaserver2.icgc.cat/storymap/html/visor.html",
+		titleId: "#storyMapTitle",
 
 	};
 
@@ -54,8 +55,9 @@ StoryMap.prototype.addEvents = function () {
 
 	const self = this;
 
-	$(self.slideInfoPanel).on("SlideBar:saveStorymapPressed", () => {
+	$(self.slideBar).on("SlideBar:saveStorymapPressed", () => {
 
+		self._updateCurrentSlideData();
 		self.loader.setTitle("Guardant l'Storymap");
 		self.loader.show();
 
@@ -194,12 +196,21 @@ StoryMap.prototype._slideDeletePressed = function (index) {
 StoryMap.prototype.save = function () {
 
 	const deferred = $.Deferred();
+	const storymapData = {
+		title: $(this.options.titleId).val(),
+		overlappingMode: this.slideInfoPanel.getOverlappingMode(),
+		animationOptions: {
+			isAnimated: this.slideInfoPanel.isAnimated(),
+			timeBetweenSlides: this.slideInfoPanel.getTimeBetweenSlides(),
+			pauseOnHover: this.slideInfoPanel.shouldPauseOnHover(),
+			startOnLoad: this.slideInfoPanel.shouldStartOnLoad(),
+			animOnFirst: this.slideInfoPanel.shouldAnimOnFirstSlide(),
+			loop: this.slideInfoPanel.shouldLoop(),
+		},
+		slides: this.slides,
+	};
 
-	if (!this.isDirty) {
-
-		deferred.resolve();
-
-	} else if (this.idStoryMap !== "") {
+	if (this.idStoryMap !== "") {
 
 		if (this.idEditor === "") {
 
@@ -209,7 +220,7 @@ StoryMap.prototype.save = function () {
 				this.idEditor = results.id_editor;
 
 				this.server.updateMapSlides(this.idEditor, this.idStoryMap,
-					JSON.stringify(this.slides)).then(
+					JSON.stringify(storymapData)).then(
 
 					() => {
 
@@ -234,7 +245,7 @@ StoryMap.prototype.save = function () {
 		} else {
 
 			this.server.updateMapSlides(this.idEditor, this.idStoryMap,
-				JSON.stringify(this.slides)).then(
+				JSON.stringify(storymapData)).then(
 
 				() => {
 
@@ -254,7 +265,7 @@ StoryMap.prototype.save = function () {
 	} else {
 
 		// no existeix l'storymap. En creem un de nou amb la info corresponent
-		this.server.newMapSlides(JSON.stringify(this.slides)).then((results) => {
+		this.server.newMapSlides(JSON.stringify(storymapData)).then((results) => {
 
 			this.idStoryMap = results.id;
 			this.idEditor = results.id_editor;
@@ -285,9 +296,19 @@ StoryMap.prototype.load = function (id) {
 
 		self.isDirty = false;
 		self.idStoryMap = results.id;
-		self.slides = JSON.parse(results.slides);
+		const data = JSON.parse(results.slides);
+		self.slides = data.slides;
 		self.slideBar.clear();
 		self.slideBar.addSlides(self.slides);
+		self.slideInfoPanel.setOverlappingMode(data.overlappingMode);
+		self.slideInfoPanel.setIsAnimated(data.animationOptions.isAnimated);
+		self.slideInfoPanel.setTimeBetweenSlides(data.animationOptions.timeBetweenSlides);
+		self.slideInfoPanel.setPauseOnHover(data.animationOptions.pauseOnHover);
+		self.slideInfoPanel.setStartOnLoad(data.animationOptions.startOnLoad);
+		self.slideInfoPanel.setAnimOnFirstSlide(data.animationOptions.animOnFirst);
+		self.slideInfoPanel.setLoop(data.animationOptions.loop);
+		$(self.options.titleId).val(data.title);
+
 		self.loader.hide();
 
 	});

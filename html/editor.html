@@ -20,9 +20,11 @@
 <body class="wysihtml5-supported">
 <script id="storymap_slide_template" type="text/template">
     <li class="slide">
-        <div class="slide-icon" data-toggle="tooltip" title="Selecciona la diapositiva"></div>
-        <div class="slide-num">1</div>.
-        <div class="slide-title"><%= text || "(Sense títol)" %></div>
+		<div class="block">
+        	<div class="slide-icon" data-toggle="tooltip" title="Selecciona la diapositiva"></div>
+        	<div class="slide-num">1</div>.
+        	<div class="slide-title"><%= text || "(Sense títol)" %></div>
+		</div>
     </li>
 </script>
 <script id="dialog_template" type="text/template">
@@ -39,9 +41,10 @@
 </script>
 <div class="translucent">
 	<header>
-		<a href="https://www.instamaps.cat/" target="_parent">
-			<img src="../static/img/instamaps-v2-logo-flat.png" alt="Logo Instamaps" title="Inici" class="logo">
+		<a href="https://betaserver2.icgc.cat/storymap/html/editor.html" target="_parent">
+			<img src="../static/img/storymaps-v1-logo-flat.png" alt="Logo Instamaps" title="Inici" class="logo">
 		</a>
+		<input type="text" id="storyMapTitle" class="storyMapTitle" name="storyMapTitle" placeholder="Introdueix un títol..." title="Títol de l'Storymap">
 	</header>
 	<nav id="menu-top" class="menu-main">
 		<ul>
@@ -130,7 +133,7 @@
 				</div><!-- /.row -->
 			</div>
 			<div id="summernote"></div>
-			<div id="storymap_reset_slide" disabled data-toggle="tooltip" title="Descarta els canvis"><i class="icon-reset"></i>Descarta</div>
+			<div id="storymap_reset_slide" disabled data-toggle="tooltip" title="Descarta els canvis"><i class="icon-reset"></i>Desfés</div>
 			<div id="saveSlideSpinner" class="spinner" style="display: none;"></div>
 		</div>
 	</div>
@@ -167,7 +170,7 @@
 			<div id="animParams">
 				<label for="carouselTime" class="text" id="carouselTimeLabel">Temps entre diapositives</label>
 				<div class="input-group">
-					<input type="text" class="form-control" id="carouselTime" aria-label="Temps entre diapositives en segons" value="5">
+					<input type="number" class="form-control" id="carouselTime" aria-label="Temps entre diapositives en segons" value="5" min="1">
 					<span class="input-group-addon">segons</span>
 				</div>
 				<input type="checkbox" name="pause" id="pauseCheckbox" checked>

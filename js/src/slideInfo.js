@@ -86,9 +86,18 @@ SlideInfo.prototype.addEvents = function () {
 
 	$(this.infoPanel).on("InfoPanel:loadURL", (event, url) => {
 
-		$(self.options.iFrameId).attr("src", Utils.addProtocolIfNeeded(url));
-		$(this.options.noURLId).hide();
-		$(this.options.iFrameId).show();
+		if (url.trim() === "") {
+
+			$(this.options.noURLId).show();
+			$(this.options.iFrameId).hide();
+
+		} else {
+
+			$(self.options.iFrameId).attr("src", Utils.addProtocolIfNeeded(url));
+			$(this.options.noURLId).hide();
+			$(this.options.iFrameId).show();
+
+		}
 
 	});
 
@@ -167,5 +176,89 @@ SlideInfo.prototype.getTitol = function () {
 SlideInfo.prototype.getDescripcio = function () {
 
 	return this.infoPanel.getDescripcio();
+
+};
+
+SlideInfo.prototype.getOverlappingMode = function () {
+
+	return this.settingsPanel.getOverlappingMode();
+
+};
+
+SlideInfo.prototype.isAnimated = function () {
+
+	return this.settingsPanel.isAnimated();
+
+};
+
+SlideInfo.prototype.getTimeBetweenSlides = function () {
+
+	return this.settingsPanel.getTimeBetweenSlides();
+
+};
+
+SlideInfo.prototype.shouldPauseOnHover = function () {
+
+	return this.settingsPanel.shouldPauseOnHover();
+
+};
+
+SlideInfo.prototype.shouldStartOnLoad = function () {
+
+	return this.settingsPanel.shouldStartOnLoad();
+
+};
+
+SlideInfo.prototype.shouldAnimOnFirstSlide = function () {
+
+	return this.settingsPanel.shouldAnimOnFirstSlide();
+
+};
+
+SlideInfo.prototype.shouldLoop = function () {
+
+	return this.settingsPanel.shouldLoop();
+
+};
+
+SlideInfo.prototype.setOverlappingMode = function (shouldOverlap) {
+
+	return this.settingsPanel.setOverlappingMode(shouldOverlap);
+
+};
+
+SlideInfo.prototype.setIsAnimated = function (shouldAnimate) {
+
+	return this.settingsPanel.setIsAnimated(shouldAnimate);
+
+};
+
+SlideInfo.prototype.setTimeBetweenSlides = function (time) {
+
+	return this.settingsPanel.setTimeBetweenSlides(time);
+
+};
+
+SlideInfo.prototype.setPauseOnHover = function (shouldPause) {
+
+	return this.settingsPanel.setPauseOnHover(shouldPause);
+
+};
+
+SlideInfo.prototype.setStartOnLoad = function (shouldStart) {
+
+	return this.settingsPanel.setStartOnLoad(shouldStart);
+
+};
+
+SlideInfo.prototype.setAnimOnFirstSlide = function (shouldAnimate) {
+
+	return this.settingsPanel.setAnimOnFirstSlide(shouldAnimate);
+
+};
+
+SlideInfo.prototype.setLoop = function (shouldLoop) {
+
+	return this.settingsPanel.setLoop(shouldLoop);
 
 };
