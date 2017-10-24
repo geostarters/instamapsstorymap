@@ -4,7 +4,7 @@ function StoryMapServer(options) {
 
 	const _defaultOptions = {
 
-		urlStoryMap: "http://172.70.1.32/storymaps/",
+		urlStoryMap: "http://betaserver2.icgc.cat/storymaps/",
 
 	};
 

@@ -5,7 +5,7 @@ function StoryMap(options) {
 	const _defaultOptions = {
 
 		language: "en",
-		maxSlides: 10,
+		maxSlides: 12,
 		strings: {
 			en: {
 				maxSlides: "Maximum number of slides reached",

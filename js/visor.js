@@ -89,7 +89,8 @@ function addProtocolIfNeeded(url) {
 
 function buildShareLinks(data) {
 
-	var visorLink = baseURL + "?" + url("?id");
+	var baseURL = 'http://betaserver2.icgc.cat/storymap/html/visor.html';
+	var visorLink = baseURL + "?id=" + url("?id");
 	var mailtoLink = "mailto:?subject=StoryMap&body=" + data.title + " - " + visorLink;
 	var fbLink = "https://www.facebook.com/dialog/share_open_graph?app_id=620717167980164&display=popup&redirect_uri=http://www.instamaps.cat/geocatweb/galeria.html&action_type=og.likes&action_properties={\"object\":\"" + visorLink + "\"}";
 	var plusLink = "https://plusone.google.com/_/+1/confirm?hl=en&url=" + visorLink;

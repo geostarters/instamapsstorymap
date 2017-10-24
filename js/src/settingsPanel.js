@@ -122,7 +122,7 @@ SettingsPanel.prototype.getOverlappingMode = function () {
 
 SettingsPanel.prototype.isAnimated = function () {
 
-	return $(this.options.animCheckbox).is(":checked");
+	return $(this.options.animCheckbox).prop("checked");
 
 };
 
@@ -134,25 +134,25 @@ SettingsPanel.prototype.getTimeBetweenSlides = function () {
 
 SettingsPanel.prototype.shouldPauseOnHover = function () {
 
-	return $(this.options.pauseCheckbox).is(":checked");
+	return $(this.options.pauseCheckbox).prop("checked");
 
 };
 
 SettingsPanel.prototype.shouldStartOnLoad = function () {
 
-	return $(this.options.rideCheckbox).is(":checked");
+	return $(this.options.rideCheckbox).prop("checked");
 
 };
 
 SettingsPanel.prototype.shouldAnimOnFirstSlide = function () {
 
-	return $(this.options.afterFirstCheckbox).is(":checked");
+	return $(this.options.afterFirstCheckbox).prop("checked");
 
 };
 
 SettingsPanel.prototype.shouldLoop = function () {
 
-	return $(this.options.wrapCheckbox).is(":checked");
+	return $(this.options.wrapCheckbox).prop("checked");
 
 };
 
