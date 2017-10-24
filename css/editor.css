@@ -523,7 +523,7 @@ a.list-item-options:hover {
 	margin:0;
 	margin-bottom:15px;
 	padding:0;
-	cursor: pointer;
+	/*cursor: pointer;*/
 	height: 72px;
 }
 

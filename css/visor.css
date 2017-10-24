@@ -55,7 +55,7 @@
 }
 
 .note-video-clip {
-  height: 360px;
+  width: 350px;
 }
 
 #dataSection-visor {
@@ -163,6 +163,7 @@ iframe {
 
 #rightArrow, #leftArrow {
   color: #ffbe00;
+  cursor: pointer;
 }
 
 .text {
