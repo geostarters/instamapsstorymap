@@ -170,4 +170,5 @@ iframe {
 .text {
   padding-right: 5px;
   padding-bottom: 10px;
+  word-break: break-all;
 }
