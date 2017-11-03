@@ -47,7 +47,7 @@ gulp.task("lint", [], () => gulp.src(paths.scripts)
 gulp.task("doc", [], (cb) => {
 
 	const config = require("./jsdoc.json");
-	gulp.src(["README.md", "./src/**/*.js"], { read: false })
+	gulp.src(["README.md", "./js/src/*.js"], { read: false })
         .pipe(jsdoc(config, cb));
 
 });

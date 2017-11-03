@@ -1,4 +1,43 @@
-/* global $, SlideBar, SlideInfo, StoryMapServer, Dialog, Loader*/
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>storyMap.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Utils.html">Utils</a><ul class='methods'><li data-type='method'><a href="module-Utils.html#addProtocolIfNeeded">addProtocolIfNeeded</a></li><li data-type='method'><a href="module-Utils.html#getRandomId">getRandomId</a></li><li data-type='method'><a href="module-Utils.html#getRandomLetter">getRandomLetter</a></li><li data-type='method'><a href="module-Utils.html#isNotEmpty">isNotEmpty</a></li><li data-type='method'><a href="module-Utils.html#isValidURL">isValidURL</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#Dialog">Dialog</a></li><li><a href="global.html#InfoPanel">InfoPanel</a></li><li><a href="global.html#Loader">Loader</a></li><li><a href="global.html#SettingsPanel">SettingsPanel</a></li><li><a href="global.html#SlideBar">SlideBar</a></li><li><a href="global.html#SlideIcon">SlideIcon</a></li><li><a href="global.html#SlideInfo">SlideInfo</a></li><li><a href="global.html#StoryMap">StoryMap</a></li><li><a href="global.html#StoryMapServer">StoryMapServer</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">storyMap.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* global $, SlideBar, SlideInfo, StoryMapServer, Dialog, Loader*/
 
 /**
 *	Constructs a StoryMap
@@ -21,20 +60,20 @@ function StoryMap(options) {
 		strings: {
 			en: {
 				maxSlides: "Maximum number of slides reached",
-				publish: "<b>To edit go to:</b> <a target='_blank' href='<<edit>>'><<edit>></a> <br><br><b>To view go to:</b> <a target='_blank' href='<<view>>'><<view>></a>",
-				delete: "Delete \"<<name>>\" slide?",
+				publish: "&lt;b>To edit go to:&lt;/b> &lt;a target='_blank' href='&lt;&lt;edit>>'>&lt;&lt;edit>>&lt;/a> &lt;br>&lt;br>&lt;b>To view go to:&lt;/b> &lt;a target='_blank' href='&lt;&lt;view>>'>&lt;&lt;view>>&lt;/a>",
+				delete: "Delete \"&lt;&lt;name>>\" slide?",
 				loading: "Loading StoryMap",
 			},
 			ca: {
 				maxSlides: "Màxim número de slides assolit",
-				publish: "<b>Per editar vés a:</b> <a target='_blank' href='<<edit>>'><<edit>></a> <br><br><b>Per veure vés a:</b> <a target='_blank' href='<<view>>'><<view>></a>",
-				delete: "Elimina la diapositiva \"<<name>>\"?",
+				publish: "&lt;b>Per editar vés a:&lt;/b> &lt;a target='_blank' href='&lt;&lt;edit>>'>&lt;&lt;edit>>&lt;/a> &lt;br>&lt;br>&lt;b>Per veure vés a:&lt;/b> &lt;a target='_blank' href='&lt;&lt;view>>'>&lt;&lt;view>>&lt;/a>",
+				delete: "Elimina la diapositiva \"&lt;&lt;name>>\"?",
 				loading: "Carregant l'StoryMap",
 			},
 			es: {
 				maxSlides: "Has llegado al número máximo de slides",
-				publish: "<b>Para editar ve a:</b> <a target='_blank' href='<<edit>>'><<edit>></a> <br><br><b>Para ver ve a:</b> <a target='_blank' href='<<view>>'><<view>></a>",
-				delete: "Elimina la diapositiva \"<<name>>\"?",
+				publish: "&lt;b>Para editar ve a:&lt;/b> &lt;a target='_blank' href='&lt;&lt;edit>>'>&lt;&lt;edit>>&lt;/a> &lt;br>&lt;br>&lt;b>Para ver ve a:&lt;/b> &lt;a target='_blank' href='&lt;&lt;view>>'>&lt;&lt;view>>&lt;/a>",
+				delete: "Elimina la diapositiva \"&lt;&lt;name>>\"?",
 				loading: "Cargando el StoryMap",
 			},
 		},
@@ -233,7 +272,7 @@ StoryMap.prototype._showDeleteDialog = function (index) {
 	const slideTitle = (data.titol || "(untitled)");
 
 	this.deleteDialog.setMessage(this.options.strings[this.options.language].delete
-		.replace("<<name>>", slideTitle));
+		.replace("&lt;&lt;name>>", slideTitle));
 	this.deleteDialog.show();
 
 };
@@ -394,10 +433,29 @@ StoryMap.prototype.publish = function () {
 	const urlEditor = `${this.options.editorURL}?id=${this.idEditor}`;
 	const urlVisor = `${this.options.viewerURL}?id=${this.idStoryMap}`;
 	let message = this.options.strings[this.options.language].publish;
-	message = message.replace(/<<edit>>/g, urlEditor);
-	message = message.replace(/<<view>>/g, urlVisor);
+	message = message.replace(/&lt;&lt;edit>>/g, urlEditor);
+	message = message.replace(/&lt;&lt;view>>/g, urlVisor);
 
 	this.publishDialog.setMessage(message);
 	this.publishDialog.show();
 
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.3</a> on Fri Nov 03 2017 17:49:40 GMT+0100 (Romance Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

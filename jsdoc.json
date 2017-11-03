@@ -1,0 +1,21 @@
+{
+    "tags": {
+        "allowUnknownTags": false
+    },
+    "opts": {
+        "template": "node_modules/docdash",
+        "encoding": "utf8",
+        "destination": "docs/",
+        "recurse": true,
+        "verbose": true,
+        "private": true
+    },
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false
+    },
+    "docdash": {
+        "static": [true],  
+        "sort": [true]    
+    }
+}
