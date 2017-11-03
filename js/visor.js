@@ -9,6 +9,10 @@ jQuery(document).ready(function() {
 		
 });
 
+var currentSlide = 0;
+var maxSlides = 0;
+var shouldWrap = false;
+
 function loadVisor(idVisor) {
 
 	var server = new StoryMapServer();
@@ -44,6 +48,19 @@ function initStorymap(serverData) {
 		ride: (!animOptions.startOnLoad) ? "carousel" : animOptions.animOnFirst,
 		wrap: animOptions.loop,
 	});
+
+	currentSlide = 0;
+	maxSlides = serverData.slides.length;
+	shouldWrap = animOptions.loop;
+
+	if(maxSlides != 1) {
+
+		$('#rightArrow').show();
+
+		if(shouldWrap)
+			$('#leftArrow').show();
+
+	}
 
 }
 
@@ -117,13 +134,23 @@ function addEvents() {
 
 	$("#leftArrow").on("click", () => {
 
+		$('#rightArrow').show();
 		$("#myCarousel").carousel('prev');
+		currentSlide--;
+
+		if(currentSlide == 0 && !shouldWrap)
+			$("#leftArrow").hide();
 
 	});
 
 	$("#rightArrow").on("click", () => {
 
+		$('#leftArrow').show();
 		$("#myCarousel").carousel('next');
+		currentSlide++;
+
+		if((currentSlide == maxSlides-1) && !shouldWrap)
+			$("#rightArrow").hide();
 
 	});
 

@@ -165,6 +165,8 @@ iframe {
 #rightArrow, #leftArrow {
   color: #ffbe00;
   cursor: pointer;
+  top: 40%;
+  bottom: 40%;
 }
 
 .text {
