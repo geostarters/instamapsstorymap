@@ -110,6 +110,20 @@ StoryMap.prototype.addEvents = function () {
 
 	});
 
+	$(self.slideBar).on("SlideBar:slideMoved", (event, startPos, endPos) => {
+
+		const tempSlide = this.slides[startPos];
+		this.slides.splice(startPos, 1);
+		this.slides.splice(endPos, 0, tempSlide);
+
+		if (this.currentSelectedIndex === startPos) {
+
+			this.currentSelectedIndex = endPos;
+
+		}
+
+	});
+
 	$(self.deleteDialog).on("Dialog:accept", () => {
 
 		self._deleteSlide();

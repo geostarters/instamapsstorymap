@@ -529,7 +529,7 @@ a.list-item-options:hover {
 
 .slide-title, .slide-add-title, .slide-save-title {
 	display: inline-block;
-	width: 100px;
+	width: 80px;
 	text-align: left;
 	overflow: hidden;
 	white-space: nowrap;
@@ -562,7 +562,7 @@ a.list-item-options:hover {
 
 .slide-num {
 	display: inline-block;
-	/* margin-left: 0px; */
+	margin-left: 20px;
 	font-size:11px;
 	font-family: "Apres RE","Helvetica Neue",Helvetica,Arial,sans-serif;
 	color:#DA0000;

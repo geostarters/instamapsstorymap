@@ -4,7 +4,8 @@
 	"description": "Implementation of a Story Map in Instamaps",
 	"author": "Geostarters <geostarters@gmail.com>",
 	"scripts": {
-		"build": "gulp build"
+		"build": "gulp build",
+		"doc": "gulp doc"
 	},
 	"main": "storymap.min.js",
 	"dependencies": {

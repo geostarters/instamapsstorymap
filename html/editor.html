@@ -2,20 +2,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Story Map</title>
-<meta name="description" content="Telling stories with maps.">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Story Map</title>
+	<meta name="description" content="Telling stories with maps.">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-<!-- === leaflet -->
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css" />
-
-<link rel="stylesheet" type="text/css" href="../css/editor.css">
-
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-<link href="../js/summernote/summernote.css" rel="stylesheet">
-<link rel="icon" type="image/png" sizes="32x32" href="../static/fav/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../static/fav/favicon-16x16.png">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.2/leaflet.css" />
+	<!-- === leaflet -->
+	<link rel="stylesheet" href="../js/jqueryui/jquery-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/editor.css">
+	<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+	<link href="../js/summernote/summernote.css" rel="stylesheet">
+	<link rel="icon" type="image/png" sizes="32x32" href="../static/fav/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../static/fav/favicon-16x16.png">
 </head>
 <body class="wysihtml5-supported">
 <script id="storymap_slide_template" type="text/template">
@@ -23,7 +22,7 @@
 		<div class="block">
         	<div class="slide-icon" data-toggle="tooltip" title="Selecciona la diapositiva"></div>
         	<div class="slide-num">1</div>.
-        	<div class="slide-title"><%= text || "(Sense títol)" %></div>
+        	<div class="slide-title">(Sense títol)</div>
 		</div>
     </li>
 </script>
@@ -69,24 +68,6 @@
 		</div>
     </div>
 </div>
-<!-- <div id="rightBar">
-	<div class="icono--div">
-		<div class="icono">
-			<a id="obrir_menu" href="#" data-toggle="tooltip" title="Informació de la diapositiva">
-				<span class="span__raya"></span>
-				<span class="span__raya"></span>
-				<span class="span__raya"></span>
-			</a>
-		</div>
-	</div>
-	<div class="icono--div">
-		<div class="icono icon2">
-			<a id="settings_menu" href="#" data-toggle="tooltip" title="Configuració de l'story map">
-				<i class="glyphicon glyphicon-cog centered-icon" aria-hidden="true"></i>
-			</a>
-		</div>
-	</div>
-</div> -->
 <div id="mapviewer-floating-sidemenu" class="floating-menu showFloatingMenu">
 	<ul class="button-group">
 		<li id="obrir_menu" class="background-yellow glow slide-icon" data-toggle="tooltip" title="Contingut de la diapositiva">
@@ -224,6 +205,7 @@
 
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 <script src="../js/jquery-2.1.4.min.js"></script>
+<script src="../js/jqueryui/jquery-ui.min.js"></script>
 <script src="../js/url.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 <script src="../js/summernote/summernote.js"></script>

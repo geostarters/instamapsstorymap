@@ -21,6 +21,8 @@ function SlideBar(options) {
 
 	this.options = $.extend(true, {}, _defaultOptions, options);
 
+	this.sortableStart = 0;
+	this.sortableEnd = 0;
 	this.addEvents();
 
 }
@@ -45,6 +47,31 @@ SlideBar.prototype.addEvents = function () {
 
 		$(self).trigger("SlideBar:saveStorymapPressed");
 
+	});
+
+	$(self.options.slideListId).sortable({
+		axis: "y",
+		cursor: "move",
+		items: ".slide",
+		start: (event, ui) => {
+
+			self.sortableStart = $(".slide").index(ui.item);
+
+		},
+		stop: (event, ui) => {
+
+			self.sortableEnd = $(".slide").index(ui.item);
+
+			if (self.sortableStart !== self.sortableEnd) {
+
+				$(self).trigger("SlideBar:slideMoved", [self.sortableStart,
+					self.sortableEnd]);
+
+				self.updateSlideNums();
+
+			}
+
+		},
 	});
 
 };
