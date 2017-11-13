@@ -12,6 +12,7 @@ jQuery(document).ready(function() {
 var currentSlide = 0;
 var maxSlides = 0;
 var shouldWrap = false;
+var isIndicatorClicked = false;
 
 function loadVisor(idVisor) {
 
@@ -67,6 +68,7 @@ function initStorymap(serverData) {
 function initCarouselContents(serverData) {
 
 	var html="";
+	var indicators = "";
 	for (index in serverData.slides) {
 
 		var slide = serverData.slides[index];
@@ -79,12 +81,25 @@ function initCarouselContents(serverData) {
 		};
 		var parsedTemplate = _.template(template,  data );
 		html += parsedTemplate;
+		indicators += "<li data-target=\"#myCarousel\" data-slide-to=\"" + index + "\" class=\"indicator " + (index==0? "active" : "") + "\"></li>";
 		
 	}
 
+	$('.carousel-indicators').html(indicators);
 	$('.carousel-inner').html(html);
 	$('.carousel-inner').children().first().addClass('active');
 	$('#storyMapTitle').html(serverData.title);
+
+	$('.indicator').click(function() {
+
+		var target = $(this).data('target');
+		var slideTo = $(this).data('slide-to');
+
+		currentSlide = slideTo;
+		isIndicatorClicked = true;
+		$(target).carousel(slideTo);
+
+	});
 
 }
 
@@ -134,24 +149,56 @@ function addEvents() {
 
 	$("#leftArrow").on("click", () => {
 
-		$('#rightArrow').show();
 		$("#myCarousel").carousel('prev');
-		currentSlide--;
-
-		if(currentSlide == 0 && !shouldWrap)
-			$("#leftArrow").hide();
 
 	});
 
 	$("#rightArrow").on("click", () => {
 
-		$('#leftArrow').show();
 		$("#myCarousel").carousel('next');
-		currentSlide++;
-
-		if((currentSlide == maxSlides-1) && !shouldWrap)
-			$("#rightArrow").hide();
 
 	});
+
+	$("#myCarousel").on('slide.bs.carousel', function(event) {
+
+		if(isIndicatorClicked) {
+
+			isIndicatorClicked = false;
+
+		}
+		else {
+
+			if(event.direction === "right")
+				currentSlide--;
+			else if(event.direction === "left")
+				currentSlide++;
+
+		}
+
+		updateArrows();
+		updateIndicators();
+
+	});
+
+}
+
+function updateArrows() {
+
+	if(currentSlide == 0 && !shouldWrap)
+		$("#leftArrow").hide();
+	else
+		$("#leftArrow").show();
+
+	if((currentSlide == maxSlides-1) && !shouldWrap)
+		$("#rightArrow").hide();
+	else
+		$("#rightArrow").show();
+
+}
+
+function updateIndicators() {
+
+	$('.indicator').removeClass("active");
+	$('.indicator:nth-child(' + (currentSlide+1) + ')').addClass("active");
 
 }
