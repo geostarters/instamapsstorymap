@@ -197,18 +197,40 @@ function addEvents() {
 
 	});
 
+	$(document).on("keyup", function(event) {
+
+		if(event.keyCode == '37') {
+
+			if(canGoLeft()) {
+
+				$("#myCarousel").carousel('prev');
+
+			}
+
+		} else if(event.keyCode == '39') {
+
+			if(canGoRight()) {
+
+				$("#myCarousel").carousel('next');
+				
+			}
+
+		}
+
+	});
+
 }
 
 function fullScreenHandler() {
 
-    if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement === true)
-    {
+	if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement === true)
+	{
 
-    	enableFullScreen();
-        
-    } else {
-    	disableFullScreen();
-    }
+		enableFullScreen();
+
+	} else {
+		disableFullScreen();
+	}
 
 }
 
@@ -238,12 +260,12 @@ function disableFullScreen() {
 
 function updateArrows() {
 
-	if(currentSlide == 0 && !shouldWrap)
+	if(!canGoLeft())
 		$("#leftArrow").hide();
 	else
 		$("#leftArrow").show();
 
-	if((currentSlide == maxSlides-1) && !shouldWrap)
+	if(!canGoRight())
 		$("#rightArrow").hide();
 	else
 		$("#rightArrow").show();
@@ -254,5 +276,17 @@ function updateIndicators() {
 
 	$('.indicator').removeClass("active");
 	$('.indicator:nth-child(' + (currentSlide+1) + ')').addClass("active");
+
+}
+
+function canGoLeft() {
+
+	return currentSlide != 0 || shouldWrap;
+
+}
+
+function canGoRight() {
+
+	return (currentSlide != maxSlides-1) || shouldWrap;
 
 }
