@@ -20,6 +20,21 @@ const Utils = {
 	},
 
 	/**
+	*	Checks if the provided text is a correct-encoded email
+	*	@param {string} text The text to check
+	*	@returns {boolean} A boolean telling if the text is a valid email
+	*	@instance
+	*/
+	isValidEmail(text) {
+
+		const expression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		const regex = new RegExp(expression);
+
+		return regex.test(text);
+
+	},
+
+	/**
 	*	Checks if the provided text is not empty
 	*	@param {string} text The text to check
 	*	@returns {boolean} A boolean telling if the text is emtpy

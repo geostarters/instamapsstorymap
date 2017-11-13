@@ -1,4 +1,4 @@
-/* global $, SlideBar, SlideInfo, StoryMapServer, Dialog, Loader*/
+/* global _, $, SlideBar, SlideInfo, StoryMapServer, Dialog, Loader, window*/
 
 /**
 *	Constructs a StoryMap
@@ -21,26 +21,40 @@ function StoryMap(options) {
 		strings: {
 			en: {
 				maxSlides: "Maximum number of slides reached",
-				publish: "<b>To edit go to:</b> <a target='_blank' href='<<edit>>'><<edit>></a> <br><br><b>To view go to:</b> <a target='_blank' href='<<view>>'><<view>></a>",
 				delete: "Delete \"<<name>>\" slide?",
 				loading: "Loading StoryMap",
+				toSeeAndShareText: "To see and share this storymap use this link:",
+				toEditText: "If you want to keep working on it or change it some time use this link:",
+				rememberText: "Remember this links as, for now, they can't be retrieved later",
+				sendByEmailText: "If you want we can send it by email:",
+				emailButtonText: "Send it!",
 			},
 			ca: {
 				maxSlides: "Màxim número de slides assolit",
-				publish: "<b>Per editar vés a:</b> <a target='_blank' href='<<edit>>'><<edit>></a> <br><br><b>Per veure vés a:</b> <a target='_blank' href='<<view>>'><<view>></a>",
 				delete: "Elimina la diapositiva \"<<name>>\"?",
 				loading: "Carregant l'StoryMap",
+				toSeeAndShareText: "Per veure i compartir aquest storymap empra l’enllaç:",
+				toEditText: "Si vols seguir-hi treballant o fer canvis més endavant empra aquest altre enllaç:",
+				rememberText: "Recorda desar aquests enllaços, ja que ara per ara no es podran recuperar quan tanquis aquesta finestra.",
+				sendByEmailText: "Si vols els pots enviar per correu:",
+				emailButtonText: "Envia'ls",
 			},
 			es: {
 				maxSlides: "Has llegado al número máximo de slides",
-				publish: "<b>Para editar ve a:</b> <a target='_blank' href='<<edit>>'><<edit>></a> <br><br><b>Para ver ve a:</b> <a target='_blank' href='<<view>>'><<view>></a>",
 				delete: "Elimina la diapositiva \"<<name>>\"?",
 				loading: "Cargando el StoryMap",
+				toSeeAndShareText: "Para ver y compartir este storymap usa el siguiente enlace:",
+				toEditText: "Si quieres seguir trabajando o hacer cambios mas adelante usa ese enlace:",
+				rememberText: "Recuerda guardar estos enlaces ya que por ahora no se pueden recuperar.",
+				sendByEmailText: "Si quieres los puedes enviar por correo:",
+				emailButtonText: "Envialos",
 			},
 		},
 		editorURL: "http://betaserver2.icgc.cat/storymap/html/editor.html",
 		viewerURL: "http://betaserver2.icgc.cat/storymap/html/visor.html",
 		titleId: "#storyMapTitle",
+		publishDialogTemplate: "#publish_map_template",
+		sendEmailButtonId: "#sendEmailBtn",
 
 	};
 
@@ -60,6 +74,8 @@ function StoryMap(options) {
 	this.publishDialog = new Dialog({ showCancelButton: false });
 	this.server = new StoryMapServer();
 	this.loader = new Loader();
+	this.publishTemplate = $(this.options.publishDialogTemplate).html().trim();
+	this.sendEmailButton = $(this.options.sendEmailButtonId);
 
 	this.addEvents();
 	this._addSlide();
@@ -405,13 +421,31 @@ StoryMap.prototype.load = function (id) {
 */
 StoryMap.prototype.publish = function () {
 
-	const urlEditor = `${this.options.editorURL}?id=${this.idEditor}`;
-	const urlVisor = `${this.options.viewerURL}?id=${this.idStoryMap}`;
-	let message = this.options.strings[this.options.language].publish;
-	message = message.replace(/<<edit>>/g, urlEditor);
-	message = message.replace(/<<view>>/g, urlVisor);
+	const self = this;
 
-	this.publishDialog.setMessage(message);
-	this.publishDialog.show();
+	const urlEditor = `${self.options.editorURL}?id=${self.idEditor}`;
+	const urlVisor = `${self.options.viewerURL}?id=${self.idStoryMap}`;
+	const currentLanguage = self.options.strings[self.options.language];
+	const mailBody = `${currentLanguage.toSeeAndShareText}%0D%0A
+		${urlVisor}%0D%0A
+		%0D%0A
+		${currentLanguage.toEditText}%0D%0A
+		%0D%0A
+		${urlEditor}`;
+
+	const message = _.template(self.publishTemplate, {
+		lang: self.options.strings[self.options.language],
+		viewLink: urlVisor,
+		editLink: urlEditor,
+	});
+
+	self.publishDialog.setMessage(message);
+	self.publishDialog.show();
+
+	$(self.options.sendEmailButtonId).on("click", () => {
+
+		window.open(`mailto:?subject=Enllaços Storymap ${$(this.options.titleId).val()}.&body=${mailBody}`, "_self");
+
+	});
 
 };

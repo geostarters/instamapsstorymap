@@ -26,6 +26,24 @@
 		</div>
     </li>
 </script>
+<script id="publish_map_template" type="text/template">
+	<b><%= lang.toSeeAndShareText %></b>
+	<br>
+	<a target='_blank' href='<%= viewLink %>'><%= viewLink %></a>
+	<br>
+	<br>
+	<b><%= lang.toEditText %></b>
+	<br>
+	<a target='_blank' href='<%= editLink %>'><%= editLink %></a>
+	<br>
+	<br>
+	<%= lang.rememberText %>
+	<br>
+	<%= lang.sendByEmailText %>
+	<button id="sendEmailBtn" type="button" class="btn btn-default btn-ok">
+		<%= lang.emailButtonText %>
+	</button>
+</script>
 <script id="dialog_template" type="text/template">
 	<div id="<%= id %>" class="modal">
 		<div class="modal-content">

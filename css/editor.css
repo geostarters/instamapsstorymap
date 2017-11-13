@@ -1913,3 +1913,8 @@ body {
 	display: inline-block;
 	width: 5px;
 }
+
+#sendEmailBtn {
+	margin-bottom: 15px;
+	margin-top: 5px;
+}
