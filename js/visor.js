@@ -141,6 +141,18 @@ function buildShareLinks(data) {
 
 function addEvents() {
 
+	$("#fullScreenButton").on("click", () => {
+
+		var el = document.documentElement;
+		var rfs = el.requestFullscreen
+        || el.webkitRequestFullScreen
+        || el.mozRequestFullScreen
+        || el.msRequestFullscreen;
+
+		rfs.call(el);
+
+	});
+
 	$("#share-modal .close").on("click", () => {
 
 		$("#share-modal").modal('hide');
