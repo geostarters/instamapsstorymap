@@ -153,6 +153,11 @@ function addEvents() {
 
 	});
 
+	document.addEventListener('webkitfullscreenchange', fullScreenHandler, false);
+    document.addEventListener('mozfullscreenchange', fullScreenHandler, false);
+    document.addEventListener('fullscreenchange', fullScreenHandler, false);
+    document.addEventListener('MSFullscreenChange', fullScreenHandler, false);
+
 	$("#share-modal .close").on("click", () => {
 
 		$("#share-modal").modal('hide');
@@ -191,6 +196,43 @@ function addEvents() {
 		updateIndicators();
 
 	});
+
+}
+
+function fullScreenHandler() {
+
+    if (document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement === true)
+    {
+
+    	enableFullScreen();
+        
+    } else {
+    	disableFullScreen();
+    }
+
+}
+
+function enableFullScreen() {
+
+	$('header').hide();
+	$('footer').hide();
+	$('.footer-controls-wrapper').hide();
+	$('.dataSection-visor').css('top', '0px');
+	$('.dataSection-visor').css('bottom', '0px');
+	$('.mapaFrame-visor').css('top', '0px');
+	$('.mapaFrame-visor').css('bottom', '0px');
+
+}
+
+function disableFullScreen() {
+
+	$('header').show();
+	$('footer').show();
+	$('.footer-controls-wrapper').show();
+	$('.dataSection-visor').css('top', '64px');
+	$('.dataSection-visor').css('bottom', '42px');
+	$('.mapaFrame-visor').css('top', '64px');
+	$('.mapaFrame-visor').css('bottom', '42px');
 
 }
 

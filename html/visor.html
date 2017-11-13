@@ -32,10 +32,10 @@
 		<div class="carousel-inner">
 			<script id="storymap_slide_template" type="text/template">
 				<div class="item">
-					<div id="mapaFrame-visor" class="<%=iframeClass%>">
+					<div id="mapaFrame-visor" class="<%=iframeClass%> mapaFrame-visor">
 						<iframe src="<%=url || ""%>" width="100%" height="100%"/>
 					</div>
-					<div id="dataSection-visor">
+					<div id="dataSection-visor" class="dataSection-visor">
 						<div class="slide-title-visor"><%= text || "" %></div>
 						<div class="text"><%= descripcio || ""%></div>
 					</div>
