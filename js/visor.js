@@ -17,7 +17,7 @@ var isIndicatorClicked = false;
 function loadVisor(idVisor) {
 
 	var server = new StoryMapServer();
-	server.getMapSlides(idVisor).then((results) => {
+	server.getMapSlides(idVisor).then(function(results) {
 
 		var serverData;
 		try {
@@ -111,7 +111,7 @@ function addProtocolIfNeeded(url) {
 
 	if (!regex.test(url)) {
 
-		newURL = `http://${newURL}`;
+		newURL = 'http://' + newURL;
 
 	}
 
@@ -141,7 +141,7 @@ function buildShareLinks(data) {
 
 function addEvents() {
 
-	$("#fullScreenButton").on("click", () => {
+	$("#fullScreenButton").on("click", function() {
 
 		var el = document.documentElement;
 		var rfs = el.requestFullscreen
@@ -158,19 +158,19 @@ function addEvents() {
     document.addEventListener('fullscreenchange', fullScreenHandler, false);
     document.addEventListener('MSFullscreenChange', fullScreenHandler, false);
 
-	$("#share-modal .close").on("click", () => {
+	$("#share-modal .close").on("click", function() {
 
 		$("#share-modal").modal('hide');
 
 	});
 
-	$("#leftArrow").on("click", () => {
+	$("#leftArrow").on("click", function() {
 
 		$("#myCarousel").carousel('prev');
 
 	});
 
-	$("#rightArrow").on("click", () => {
+	$("#rightArrow").on("click", function() {
 
 		$("#myCarousel").carousel('next');
 

@@ -10,6 +10,7 @@ const batch = require("gulp-batch");
 const del = require("del");
 const minify = composer(uglifyes, console);
 const jsdoc = require("gulp-jsdoc3");
+const babel = require("gulp-babel");
 
 const paths = {
 	scripts: [
@@ -20,6 +21,9 @@ const paths = {
 gulp.task("clean", () => del(["build"]));
 
 gulp.task("build", ["clean", "lint"], () => gulp.src(paths.scripts)
+		.pipe(babel({
+			presets: ["env"]
+		}))
 		.pipe(sourcemaps.init())
 		.pipe(minify())
 		.on("error", (err) => {
