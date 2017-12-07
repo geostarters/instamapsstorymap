@@ -234,17 +234,12 @@ StoryMap.prototype._updateCurrentSlideData = function () {
 		if (this.currentSelectedIndex !== -1) {
 
 			const currentSlide = this.slides[this.currentSelectedIndex];
-			const url = this.slideInfoPanel.getURL();
 
-			if (url.trim() !== "") {
-
-				currentSlide.url_mapa = this.slideInfoPanel.getURL();
-				currentSlide.titol = this.slideInfoPanel.getTitol();
-				currentSlide.descripcio = this.slideInfoPanel.getDescripcio();
-				this.slideBar.setSlideTitle(currentSlide.titol);
-				this.isDirty = true;
-
-			}
+			currentSlide.url_mapa = this.slideInfoPanel.getURL();
+			currentSlide.titol = this.slideInfoPanel.getTitol();
+			currentSlide.descripcio = this.slideInfoPanel.getDescripcio();
+			this.slideBar.setSlideTitle(currentSlide.titol);
+			this.isDirty = true;
 
 		}
 
@@ -376,6 +371,7 @@ StoryMap.prototype._deleteSlide = function () {
 	self.slides.splice(this.currentDeletionIndex, 1);
 	self.slideBar.removeSlide(this.currentDeletionIndex);
 	self.slideInfoPanel.clean();
+	this.currentSelectedIndex = -1;
 
 };
 
@@ -394,6 +390,7 @@ StoryMap.prototype.load = function (id) {
 
 	self.server.editMapSlides(id).then((results) => {
 
+		self.currentSelectedIndex = -1;
 		self.isDirty = false;
 		self.idStoryMap = results.id;
 		const data = JSON.parse(results.slides);

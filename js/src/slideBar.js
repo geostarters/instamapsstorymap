@@ -55,7 +55,8 @@ SlideBar.prototype.addEvents = function () {
 		items: ".slide",
 		start: (event, ui) => {
 
-			self.sortableStart = $(".slide").index(ui.item);
+			const slideIndex = $(".slide").index(ui.item);
+			self.sortableStart = slideIndex;
 
 		},
 		stop: (event, ui) => {

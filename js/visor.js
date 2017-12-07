@@ -105,9 +105,9 @@ function initCarouselContents(serverData) {
 
 function addProtocolIfNeeded(url) {
 
-	let newURL = url;
-	const expression = /(?:https?:\/\/)/gi;
-	const regex = new RegExp(expression);
+	var newURL = url;
+	var expression = /(?:https?:\/\/)/gi;
+	var regex = new RegExp(expression);
 
 	if (!regex.test(url)) {
 

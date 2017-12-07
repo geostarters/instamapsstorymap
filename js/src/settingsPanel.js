@@ -33,7 +33,7 @@ function SettingsPanel(index, options) {
 	};
 
 	this.options = $.extend(true, {}, _defaultOptions, options);
-	this.isOverlapped = true;
+	this.isOverlapped = false;
 	this.isDirty = false;
 
 	this.addEvents();
@@ -110,7 +110,7 @@ SettingsPanel.prototype.enableOverlappedMode = function (shouldEnable) {
 */
 SettingsPanel.prototype.reset = function () {
 
-	this.enableOverlappedMode(true);
+	this.enableOverlappedMode(false);
 	this.isDirty = false;
 
 };

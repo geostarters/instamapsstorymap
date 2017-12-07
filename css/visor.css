@@ -104,6 +104,9 @@
 #storyMapTitle {
   display: inline-block;
   margin-top: 0px !important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .slide-title-visor {
@@ -215,4 +218,8 @@ iframe {
 
 .carousel-control {
   width: 5%;
+}
+
+header .logo {
+  margin-top: -55px !important;
 }

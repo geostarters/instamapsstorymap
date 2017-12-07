@@ -42,7 +42,7 @@ Dialog.prototype.setupDialog = function () {
 
 	if (!this.options.showCancelButton) {
 
-		$(`${this.id} ${this.cancelButtonClass}`).hide();
+		$(`${this.id} ${this.options.cancelButtonClass}`).hide();
 
 	}
 

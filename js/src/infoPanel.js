@@ -62,7 +62,6 @@ InfoPanel.prototype.addEvents = function () {
 
 		$(self.options.urlInputId).val("");
 		self.disableURLButtons(false);
-		self.disableSlideInputs(false);
 		$(self).trigger("InfoPanel:clearURLPressed");
 
 	});
@@ -150,7 +149,6 @@ InfoPanel.prototype.checkURL = function () {
 	} else {
 
 		this.disableURLButtons();
-		this.disableSlideInputs(false);
 
 	}
 
@@ -280,7 +278,6 @@ InfoPanel.prototype.setURL = function () {
 
 	const url = $(self.options.urlInputId).val();
 	$(self).trigger("InfoPanel:loadURL", [url]);
-	self.enableSlideInputs();
 
 };
 
@@ -335,16 +332,12 @@ InfoPanel.prototype.reset = function () {
 	if (url.trim() !== "") {
 
 		$(this).trigger("InfoPanel:loadURL", [url]);
-		$(this.options.textInputId).summernote("enable");
 		this.enableURLButtons();
-		this.enableSlideInputs();
 
 	} else {
 
 		$(this).trigger("InfoPanel:clearURLPressed");
-		$(this.options.textInputId).summernote("disable");
 		this.disableURLButtons();
-		this.disableSlideInputs();
 
 	}
 
@@ -367,7 +360,6 @@ InfoPanel.prototype.clean = function () {
 	$(this.options.urlInputId).val(url);
 
 	this.disableURLButtons();
-	this.disableSlideInputs();
 
 };
 
@@ -385,12 +377,10 @@ InfoPanel.prototype.setData = function (url, titol, descripcio) {
 
 	if (url && url !== "") {
 
-		this.enableSlideInputs();
 		this.enableURLButtons();
 
 	} else {
 
-		this.disableSlideInputs();
 		this.disableURLButtons();
 
 	}
