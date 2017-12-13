@@ -3,6 +3,7 @@
 A tool that allows you to combine different maps with text, photos, videos, etc. And explain, for example, the history of a country, a story, compare different physical phenomena or demonstrate the territorial imbalances of a certain socioeconomic variable.
 
 **Editor demo:** http://betaserver2.icgc.cat/storymap/html/editor.html
+
 **Demo:** http://betaserver2.icgc.cat/storymap/html/visor.html?id=9879c380-b7e5-11e7-913f-53fc7c9e8080
 
 ## Building the library
