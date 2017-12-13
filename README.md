@@ -45,6 +45,5 @@ More information at http://betaportal.icgc.cat/wordpress/storymaps/
 
 ## License
 
-Copyright (c) 2017- Geostarters (MIT License) 
-
+Copyright (c) 2017- Geostarters (MIT License)  
 See LICENSE file for more info.
